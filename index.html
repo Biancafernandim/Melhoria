@@ -33,6 +33,57 @@
         .stepper-item {
             cursor: default; /* Impede que pareça clicável */
         }
+        
+        /* Estilos para o Upload de Foto */
+        .photo-uploader {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px dashed #d1d5db;
+            background-color: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .photo-uploader:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .photo-uploader img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-uploader .placeholder {
+            text-align: center;
+            color: #6b7280;
+        }
+         .photo-uploader .placeholder i {
+            font-size: 2.5rem;
+        }
+        #remove-photo-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #remove-photo-btn:hover {
+             background-color: rgba(239, 68, 68, 1);
+        }
+
     </style>
 </head>
 <body class="bg-gray-100">
@@ -156,15 +207,18 @@
                         <!-- NAVEGAÇÃO DAS ETAPAS (WIZARD) -->
                         <div id="stepper-nav" class="flex border-b mb-8">
                             <div data-step="1" class="stepper-item active flex-1 text-center font-semibold p-4 border-b-2 border-blue-600 text-blue-600">
-                                <i class="fas fa-user mr-2 hidden sm:inline"></i>Dados Pessoais
+                                <i class="fas fa-camera mr-2 hidden sm:inline"></i>Foto
                             </div>
                             <div data-step="2" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
-                                <i class="fas fa-file-contract mr-2 hidden sm:inline"></i>Contratuais
+                                <i class="fas fa-user mr-2 hidden sm:inline"></i>Dados Pessoais
                             </div>
                             <div data-step="3" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
+                                <i class="fas fa-file-contract mr-2 hidden sm:inline"></i>Contratuais
+                            </div>
+                            <div data-step="4" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
                                 <i class="fas fa-tasks mr-2 hidden sm:inline"></i>Atividades
                             </div>
-                             <div data-step="4" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
+                             <div data-step="5" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
                                 <i class="fas fa-check-circle mr-2 hidden sm:inline"></i>Revisão
                             </div>
                         </div>
@@ -172,8 +226,25 @@
                         <form id="form-empregado" class="space-y-6">
                             <input type="hidden" id="empregado-id">
 
-                            <!-- ETAPA 1: DADOS PESSOAIS -->
+                            <!-- ETAPA 1: FOTO -->
                             <div id="step-1" class="form-step">
+                                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Foto do Colaborador</h4>
+                                 <div class="flex flex-col items-center justify-center py-8">
+                                     <div id="photo-uploader-trigger" class="photo-uploader">
+                                        <img id="photo-preview" src="" alt="Foto do Colaborador" class="hidden">
+                                        <div id="photo-placeholder" class="placeholder">
+                                            <i class="fas fa-camera"></i>
+                                            <p class="text-xs mt-1">Adicionar Foto</p>
+                                        </div>
+                                        <button type="button" id="remove-photo-btn" class="hidden"><i class="fas fa-times"></i></button>
+                                    </div>
+                                    <input type="file" id="photo-input" class="hidden" accept="image/*">
+                                    <p class="text-sm text-gray-500 mt-4">Clique no círculo para adicionar ou alterar a foto.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- ETAPA 2: DADOS PESSOAIS -->
+                            <div id="step-2" class="form-step hidden">
                                 <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Dados Pessoais e Documentos</h4>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
                                     <div class="md:col-span-2">
@@ -235,8 +306,8 @@
                                 </div>
                             </div>
                             
-                            <!-- ETAPA 2: INFORMAÇÕES CONTRATUAIS -->
-                            <div id="step-2" class="form-step hidden">
+                            <!-- ETAPA 3: INFORMAÇÕES CONTRATUAIS -->
+                            <div id="step-3" class="form-step hidden">
                                 <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Informações Contratuais</h4>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
                                      <div>
@@ -305,8 +376,8 @@
                                 </div>
                             </div>
 
-                            <!-- ETAPA 3: ATIVIDADES -->
-                            <div id="step-3" class="form-step hidden">
+                            <!-- ETAPA 4: ATIVIDADES -->
+                            <div id="step-4" class="form-step hidden">
                                 <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Atividades Executadas</h4>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 items-end bg-gray-50 p-4 rounded-md border">
                                     <div class="md:col-span-1">
@@ -324,8 +395,8 @@
                                 </div>
                             </div>
                             
-                            <!-- ETAPA 4: VINCULAÇÃO E REVISÃO -->
-                            <div id="step-4" class="form-step hidden">
+                            <!-- ETAPA 5: VINCULAÇÃO E REVISÃO -->
+                            <div id="step-5" class="form-step hidden">
                                 <div class="bg-gray-50 p-4 rounded-lg border mb-6">
                                     <h4 class="font-semibold text-gray-600 mb-2">Vinculação</h4>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -353,9 +424,11 @@
                             
                             <!-- BOTÕES DE NAVEGAÇÃO E AÇÕES -->
                             <div id="step-navigation" class="flex justify-between items-center pt-4 border-t mt-6">
-                                <div>
-                                    <button type="button" id="btn-excluir-formulario" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors hidden">
-                                        <i class="fas fa-trash mr-2"></i>Excluir
+                                <div class="flex items-center gap-x-2">
+                                    <button type="button" id="btn-corrigir-datas" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors hidden">Corrigir Datas</button>
+                                    <button type="button" id="btn-inativar-demitir" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors hidden">Inativar/Demitir</button>
+                                    <button type="button" id="btn-excluir-formulario" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors hidden">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                                 <div class="ml-auto flex items-center space-x-4">
@@ -391,11 +464,11 @@
                 { id: 3, nome: "Centro de Distribuição Curitiba" }
             ];
             let empregados = [
-                { id: 1, situacao: "Cadastrado", nome: "Ana Carolina", cpf: "111.222.333-44", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1990-05-15", rg: "12.345.678-9", nomeMae: "Maria Almeida", matricula: "1001", dataAdmissao: "2022-01-10", funcao: "Desenvolvedora Frontend", salario: 7500.00, tipoContratacao: "CLT", dataExpedicaoRg: "2010-01-05", orgaoEmissor: "SSP/SP", ctps: "1234567", pis: "123.45678.90-1", escolaridade: "Superior Completo", cidadeResidencia: "São Paulo", estadoResidencia: "São Paulo", tipoVinculo: "Consolidação das Leis Trabalhistas", contrato: "Contrato A", area: "Tecnologia", gerencia: "Desenvolvimento", motivoAdmissao: "Substituição", dataDemissao: "", motivoDemissao: "", cargaHoraria: "220h", dependentes: 0, atividades: [{nome: 'Desenvolvimento de API', data: '2023-01-15'}] },
-                { id: 2, situacao: "Pré-cadastro", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 2, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
-                { id: 3, situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 1, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", atividades: [] },
-                { id: 4, situacao: "Aguardando", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 1, fornecedorId: 3, unidadeId: 3, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
-                { id: 5, situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 1, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
+                { id: 1, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=AC', situacao: "Cadastrado", nome: "Ana Carolina", cpf: "111.222.333-44", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1990-05-15", rg: "12.345.678-9", nomeMae: "Maria Almeida", matricula: "1001", dataAdmissao: "2022-01-10", funcao: "Desenvolvedora Frontend", salario: 7500.00, tipoContratacao: "CLT", dataExpedicaoRg: "2010-01-05", orgaoEmissor: "SSP/SP", ctps: "1234567", pis: "123.45678.90-1", escolaridade: "Superior Completo", cidadeResidencia: "São Paulo", estadoResidencia: "São Paulo", tipoVinculo: "Consolidação das Leis Trabalhistas", contrato: "Contrato A", area: "Tecnologia", gerencia: "Desenvolvimento", motivoAdmissao: "Substituição", dataDemissao: "", motivoDemissao: "", cargaHoraria: "220h", dependentes: 0, atividades: [{nome: 'Desenvolvimento de API', data: '2023-01-15'}] },
+                { id: 2, photoUrl: null, situacao: "Pré-cadastro", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 2, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
+                { id: 3, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=CE', situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 1, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", atividades: [] },
+                { id: 4, photoUrl: null, situacao: "Aguardando", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 1, fornecedorId: 3, unidadeId: 3, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
+                { id: 5, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=EM', situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 1, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
             ];
 
             // --- SELETORES DO DOM ---
@@ -428,10 +501,21 @@
             const btnNext = document.getElementById('btn-next');
             const btnSave = document.getElementById('btn-save');
             const reviewContent = document.getElementById('review-content');
+            
+            // --- SELETORES PARA FOTO E NOVOS BOTÕES ---
+            const photoUploaderTrigger = document.getElementById('photo-uploader-trigger');
+            const photoInput = document.getElementById('photo-input');
+            const photoPreview = document.getElementById('photo-preview');
+            const photoPlaceholder = document.getElementById('photo-placeholder');
+            const removePhotoBtn = document.getElementById('remove-photo-btn');
+            const btnCorrigirDatas = document.getElementById('btn-corrigir-datas');
+            const btnInativarDemitir = document.getElementById('btn-inativar-demitir');
+
 
             let atividadesTemporarias = [];
             let currentStep = 1; 
             const totalSteps = formSteps.length;
+            let currentPhotoUrl = null;
 
             // --- FUNÇÕES DE CONTROLE DE VIEW ---
             const showListView = () => {
@@ -470,6 +554,9 @@
 
             // --- FUNÇÃO: VALIDAR ETAPA ATUAL ---
             const validateStep = (step) => {
+                // Etapa 1 (foto) não tem validação obrigatória
+                if (step === 1) return true;
+                
                 const currentStepElement = document.getElementById(`step-${step}`);
                 const inputs = currentStepElement.querySelectorAll('input[required], select[required]');
                 let isValid = true;
@@ -485,27 +572,32 @@
                 }
                 return isValid;
             };
+            
+            // --- FUNÇÃO: RESETAR UPLOAD DE FOTO ---
+            const resetPhotoUploader = () => {
+                photoInput.value = ''; // Limpa o arquivo selecionado
+                photoPreview.src = '';
+                photoPreview.classList.add('hidden');
+                photoPlaceholder.classList.remove('hidden');
+                removePhotoBtn.classList.add('hidden');
+                currentPhotoUrl = null;
+            };
 
             // --- FUNÇÃO: CONSTRUIR RESUMO PARA REVISÃO ---
             const buildReview = () => {
-                const formData = new FormData(formEmpregado);
-                const data = Object.fromEntries(formData.entries());
-
-                // Coletando dados dos selects também
-                data.nome = document.getElementById('nome').value;
-                data.cpf = document.getElementById('cpf').value;
-                data.funcao = document.getElementById('funcao').value;
-                data.dataAdmissao = document.getElementById('data-admissao').value;
-                data.salario = document.getElementById('salario').value;
-
-
                 reviewContent.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <p><strong>Nome:</strong> ${data.nome || 'Não preenchido'}</p>
-                        <p><strong>CPF:</strong> ${data.cpf || 'Não preenchido'}</p>
-                        <p><strong>Função:</strong> ${data.funcao || 'Não preenchido'}</p>
-                        <p><strong>Data de Admissão:</strong> ${data.dataAdmissao ? new Date(data.dataAdmissao + 'T00:00:00').toLocaleDateString('pt-BR') : 'Não preenchido'}</p>
-                        <p><strong>Salário:</strong> R$ ${parseFloat(data.salario || 0).toFixed(2).replace('.',',')}</p>
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="flex-shrink-0">
+                            <img src="${photoPreview.src || 'https://placehold.co/150x150/e2e8f0/64748b?text=Sem+Foto'}" alt="Foto do Colaborador" class="w-[150px] h-[150px] rounded-full object-cover border-4 border-gray-200">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 flex-1">
+                            <p><strong>Nome:</strong> ${document.getElementById('nome').value || 'Não preenchido'}</p>
+                            <p><strong>CPF:</strong> ${document.getElementById('cpf').value || 'Não preenchido'}</p>
+                            <p><strong>Função:</strong> ${document.getElementById('funcao').value || 'Não preenchido'}</p>
+                            <p><strong>Data de Admissão:</strong> ${document.getElementById('data-admissao').value ? new Date(document.getElementById('data-admissao').value + 'T00:00:00').toLocaleDateString('pt-BR') : 'Não preenchido'}</p>
+                            <p><strong>Salário:</strong> R$ ${parseFloat(document.getElementById('salario').value || 0).toFixed(2).replace('.',',')}</p>
+                             <p><strong>Status:</strong> ${document.getElementById('status').value}</p>
+                        </div>
                     </div>
                 `;
             };
@@ -546,7 +638,10 @@
                     const situacaoClass = getSituacaoBadge(e.situacao);
                     const row = `
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${e.nome}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
+                                <img class="h-8 w-8 rounded-full object-cover mr-3" src="${e.photoUrl || 'https://placehold.co/40x40/e2e8f0/64748b?text=??'}" alt="Foto de ${e.nome}">
+                                ${e.nome}
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${e.cpf}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${situacaoClass}">${e.situacao}</span></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">${e.status}</span></td>
@@ -611,7 +706,12 @@
             const abrirFormulario = (id = null) => {
                 formEmpregado.reset();
                 atividadesTemporarias = [];
+                resetPhotoUploader();
+                
+                // Esconde botões de edição por padrão
                 btnExcluirFormulario.classList.add('hidden');
+                btnCorrigirDatas.classList.add('hidden');
+                btnInativarDemitir.classList.add('hidden');
                 
                 currentStep = 1;
                 updateStepView();
@@ -622,9 +722,18 @@
                     formTitulo.textContent = 'Editar Colaborador';
                     empregadoIdInput.value = empregado.id;
                     
+                    if(empregado.photoUrl) {
+                        photoPreview.src = empregado.photoUrl;
+                        currentPhotoUrl = empregado.photoUrl;
+                        photoPreview.classList.remove('hidden');
+                        photoPlaceholder.classList.add('hidden');
+                        removePhotoBtn.classList.remove('hidden');
+                    }
+                    
                     document.getElementById('nome').value = empregado.nome || '';
                     document.getElementById('cpf').value = empregado.cpf || '';
                     document.getElementById('status').value = empregado.status || 'Ativo';
+                    // ... (resto dos campos)
                     document.getElementById('pais-contratacao').value = empregado.paisContratacao || 'Brasil';
                     document.getElementById('data-nascimento').value = empregado.dataNascimento || '';
                     document.getElementById('rg').value = empregado.rg || '';
@@ -654,7 +763,12 @@
                     modalClienteSelect.value = empregado.clienteId;
                     modalFornecedorSelect.value = empregado.fornecedorId;
                     modalUnidadeSelect.value = empregado.unidadeId;
+                    
+                    // Mostra botões de edição
                     btnExcluirFormulario.classList.remove('hidden');
+                    btnCorrigirDatas.classList.remove('hidden');
+                    btnInativarDemitir.classList.remove('hidden');
+
                 } else {
                     formTitulo.textContent = 'Novo Colaborador';
                     empregadoIdInput.value = '';
@@ -673,9 +787,11 @@
                 const clienteSelecionado = clientes.find(c => c.id === clienteId);
 
                 const novoEmpregado = {
+                    photoUrl: currentPhotoUrl,
                     nome: document.getElementById('nome').value,
                     cpf: document.getElementById('cpf').value,
                     status: document.getElementById('status').value,
+                    // ... (resto dos campos)
                     paisContratacao: document.getElementById('pais-contratacao').value,
                     dataNascimento: document.getElementById('data-nascimento').value,
                     rg: document.getElementById('rg').value,
@@ -765,6 +881,31 @@
                     updateStepView();
                 }
             });
+            
+            // --- EVENT LISTENERS PARA FOTO E NOVOS BOTÕES ---
+            photoUploaderTrigger.addEventListener('click', () => photoInput.click());
+            photoInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if(file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        photoPreview.src = event.target.result;
+                        currentPhotoUrl = event.target.result;
+                        photoPreview.classList.remove('hidden');
+                        photoPlaceholder.classList.add('hidden');
+                        removePhotoBtn.classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            removePhotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Impede que o click ative o upload
+                resetPhotoUploader();
+            });
+            
+            btnCorrigirDatas.addEventListener('click', () => alert('Função "Corrigir Datas" a ser implementada.'));
+            btnInativarDemitir.addEventListener('click', () => alert('Função "Inativar/Demitir Empregado" a ser implementada.'));
+
 
             // --- INICIALIZAÇÃO ---
             popularSelect(filtroCliente, clientes, 'Selecione o Cliente');
@@ -784,3 +925,4 @@
     </script>
 </body>
 </html>
+
