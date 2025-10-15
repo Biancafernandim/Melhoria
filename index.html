@@ -28,8 +28,13 @@
                         </button>
                         <ul id="submenu-lancamento" class="mt-2 ml-4 space-y-2">
                             <li>
-                                <a href="#" class="block py-2 px-4 rounded-lg bg-blue-600 font-semibold">
+                                <a href="#" id="link-cadastro-empregado" class="block py-2 px-4 rounded-lg bg-blue-600 font-semibold">
                                     <i class="fas fa-user-tie mr-3"></i>Cadastro de Empregado
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" id="link-movimentacao-empregado" class="block py-2 px-4 rounded-lg hover:bg-gray-700">
+                                    <i class="fas fa-people-arrows mr-3"></i>Movimentação
                                 </a>
                             </li>
                         </ul>
@@ -118,7 +123,135 @@
                 </div>
             </div>
 
-            <!-- TELA DE FORMULÁRIO (VIEW) - MODIFICADA COM WIZARD -->
+            <!-- TELA DE MOVIMENTAÇÃO (VIEW) -->
+            <div id="view-movimentacao" class="hidden flex-1 flex flex-col">
+                 <header class="h-16 bg-white shadow-md flex items-center justify-between px-6 flex-shrink-0">
+                    <h1 class="text-2xl font-semibold text-gray-800">Movimentação de Empregado</h1>
+                     <div class="flex items-center space-x-4">
+                        <i class="fas fa-bell text-gray-600 hover:text-blue-600 cursor-pointer"></i>
+                        <i class="fas fa-user-circle text-2xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
+                    </div>
+                </header>
+                <div class="flex-1 p-6 overflow-y-auto">
+                    <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                            <!-- Filtros -->
+                            <div>
+                                <label for="mov-filtro-cliente" class="block text-sm font-medium text-gray-600 mb-1">Cliente</label>
+                                <select id="mov-filtro-cliente" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="0">Selecione o Cliente</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label for="mov-filtro-fornecedor" class="block text-sm font-medium text-gray-600 mb-1">Fornecedor</label>
+                                <select id="mov-filtro-fornecedor" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="0">Selecione o Fornecedor</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label for="mov-filtro-unidade" class="block text-sm font-medium text-gray-600 mb-1">Unidade</label>
+                                <select id="mov-filtro-unidade" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="0">Selecione a Unidade</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label for="mov-filtro-empregado" class="block text-sm font-medium text-gray-600 mb-1">Empregado</label>
+                                <select id="mov-filtro-empregado" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="0">Selecione o Empregado</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="mov-tipo" class="block text-sm font-medium text-gray-600 mb-1">Movimentação</label>
+                                <select id="mov-tipo" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Selecione...</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Data da Movimentação</label>
+                                <input type="date" id="mov-data" class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
+                            </div>
+                        </div>
+                        
+                        <!-- Campos Dinâmicos para Movimentação -->
+                        <div id="movimentacao-campos-dinamicos" class="mt-6 border-t pt-6">
+                            <!-- Transferência Fornecedor/Unidade -->
+                            <div id="mov-campos-transferencia-fornecedor-unidade" class="hidden space-y-4">
+                                <h4 class="font-semibold">Transferência de Fornecedor/Unidade</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Novo Fornecedor</label>
+                                        <select id="mov-novo-fornecedor" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Nova Unidade</label>
+                                        <select id="mov-nova-unidade" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
+                                    </div>
+                                     <div>
+                                        <label class="block text-sm font-medium text-gray-700">Contrato</label>
+                                        <input type="text" class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
+                                    </div>
+                                     <div>
+                                        <label class="block text-sm font-medium text-gray-700">Área</label>
+                                        <select id="mov-nova-area-1" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transferência Contrato -->
+                            <div id="mov-campos-transferencia-contrato" class="hidden space-y-4">
+                                <h4 class="font-semibold">Transferência de Contrato</h4>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Contrato</label>
+                                        <input type="text" class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Área</label>
+                                        <select id="mov-nova-area-2" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mudança de Função -->
+                            <div id="mov-campos-mudanca-funcao" class="hidden space-y-4">
+                                <h4 class="font-semibold">Mudança de Função</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Tipo de Movimentação</label>
+                                        <select class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
+                                            <option>Promoção</option>
+                                            <option>Rebaixamento</option>
+                                        </select>
+                                    </div>
+                                     <div>
+                                        <label class="block text-sm font-medium text-gray-700">Função</label>
+                                        <select id="mov-nova-funcao" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block text-sm font-medium text-gray-700">Mudança de Risco Ocupacional</label>
+                                        <div class="flex items-center space-x-4 mt-2">
+                                            <label><input type="radio" name="risco" class="mr-1"> Sim</label>
+                                            <label><input type="radio" name="risco" class="mr-1" checked> Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- Afastamento e Retorno (campos comuns) -->
+                            <div id="mov-campos-afastamento-retorno" class="hidden space-y-4">
+                                <h4 class="font-semibold" id="mov-afastamento-retorno-title"></h4>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-4 mt-8 border-t pt-6">
+                            <button class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Inserir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TELA DE FORMULÁRIO (VIEW) -->
             <div id="view-formulario" class="hidden flex-1 flex flex-col">
                 <header class="h-16 bg-white shadow-md flex items-center justify-between px-6 flex-shrink-0">
                     <h1 id="form-titulo" class="text-2xl font-semibold text-gray-800"></h1>
@@ -148,7 +281,7 @@
                             </div>
                         </div>
 
-                        <form id="form-empregado" class="space-y-6">
+                        <form id="form-empregado">
                             <input type="hidden" id="empregado-id">
 
                             <!-- ETAPA 1: FOTO -->
@@ -174,7 +307,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
                                     <div class="md:col-span-2">
                                         <label for="nome" class="block text-sm font-medium text-gray-700">Nome Civil</label>
-                                        <input type="text" id="nome" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="nome" name="nome" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div class="md:col-span-2 flex items-end pb-2">
                                          <input type="checkbox" id="nome-social-check" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
@@ -182,51 +315,51 @@
                                     </div>
                                     <div>
                                         <label for="pais-contratacao" class="block text-sm font-medium text-gray-700">País de Contratação</label>
-                                        <select id="pais-contratacao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Brasil</option></select>
+                                        <select id="pais-contratacao" name="paisContratacao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Brasil</option></select>
                                     </div>
                                     <div>
                                         <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                                        <input type="text" id="cpf" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="000.000.000-00">
+                                        <input type="text" id="cpf" name="cpf" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="000.000.000-00">
                                     </div>
                                     <div>
                                         <label for="rg" class="block text-sm font-medium text-gray-700">RG</label>
-                                        <input type="text" id="rg" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="rg" name="rg" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="data-expedicao-rg" class="block text-sm font-medium text-gray-700">Data Expedição (RG)</label>
-                                        <input type="date" id="data-expedicao-rg" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="date" id="data-expedicao-rg" name="dataExpedicaoRg" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="orgao-emissor" class="block text-sm font-medium text-gray-700">Órgão Emissor</label>
-                                        <input type="text" id="orgao-emissor" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="orgao-emissor" name="orgaoEmissor" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="ctps" class="block text-sm font-medium text-gray-700">CTPS</label>
-                                        <input type="text" id="ctps" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="ctps" name="ctps" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="pis" class="block text-sm font-medium text-gray-700">PIS</label>
-                                        <input type="text" id="pis" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="pis" name="pis" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="data-nascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
-                                        <input type="date" id="data-nascimento" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="date" id="data-nascimento" name="dataNascimento" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div class="md:col-span-2">
                                         <label for="nome-mae" class="block text-sm font-medium text-gray-700">Nome da Mãe</label>
-                                        <input type="text" id="nome-mae" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="nome-mae" name="nomeMae" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="escolaridade" class="block text-sm font-medium text-gray-700">Escolaridade</label>
-                                        <select id="escolaridade" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Ensino Médio Completo</option><option>Superior Incompleto</option><option>Superior Completo</option></select>
+                                        <select id="escolaridade" name="escolaridade" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Ensino Médio Completo</option><option>Superior Incompleto</option><option>Superior Completo</option></select>
                                     </div>
                                     <div>
                                         <label for="cidade-residencia" class="block text-sm font-medium text-gray-700">Cidade de Residência</label>
-                                        <input type="text" id="cidade-residencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="cidade-residencia" name="cidadeResidencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="estado-residencia" class="block text-sm font-medium text-gray-700">Estado</label>
-                                        <select id="estado-residencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>São Paulo</option><option>Rio de Janeiro</option><option>Minas Gerais</option></select>
+                                        <select id="estado-residencia" name="estadoResidencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>São Paulo</option><option>Rio de Janeiro</option><option>Minas Gerais</option></select>
                                     </div>
                                 </div>
                             </div>
@@ -237,63 +370,67 @@
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
                                      <div>
                                         <label for="matricula" class="block text-sm font-medium text-gray-700">Matrícula</label>
-                                        <input type="text" id="matricula" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="matricula" name="matricula" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="tipo-vinculo" class="block text-sm font-medium text-gray-700">Tipo de Vínculo</label>
-                                        <select id="tipo-vinculo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Consolidação das Leis Trabalhistas</option></select>
+                                        <select id="tipo-vinculo" name="tipoVinculo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Consolidação das Leis Trabalhistas</option></select>
                                     </div>
                                     <div>
                                         <label for="tipo-contratacao" class="block text-sm font-medium text-gray-700">Tipo de Contratação</label>
-                                        <select id="tipo-contratacao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>CLT</option><option>PJ</option><option>Estágio</option></select>
+                                        <select id="tipo-contratacao" name="tipoContratacao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>CLT</option><option>PJ</option><option>Estágio</option></select>
                                     </div>
                                     <div>
                                         <label for="contrato" class="block text-sm font-medium text-gray-700">Contrato</label>
-                                        <input type="text" id="contrato" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="contrato" name="contrato" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="funcao" class="block text-sm font-medium text-gray-700">Função</label>
-                                        <input type="text" id="funcao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="text" id="funcao" name="funcao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="area" class="block text-sm font-medium text-gray-700">Área</label>
-                                        <select id="area" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Tecnologia</option><option>Recursos Humanos</option></select>
+                                        <select id="area" name="area" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Tecnologia</option><option>Recursos Humanos</option></select>
                                     </div>
                                     <div>
                                         <label for="gerencia" class="block text-sm font-medium text-gray-700">Gerência</label>
-                                        <select id="gerencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Desenvolvimento</option><option>Operações</option></select>
+                                        <select id="gerencia" name="gerencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Desenvolvimento</option><option>Operações</option></select>
                                     </div>
                                     <div>
                                         <label for="salario" class="block text-sm font-medium text-gray-700">Salário</label>
-                                        <input type="number" id="salario" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ex: 2500.00">
+                                        <input type="number" id="salario" name="salario" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ex: 2500.00">
+                                    </div>
+                                    <div>
+                                        <label for="data-inicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
+                                        <input type="date" id="data-inicio" name="dataInicio" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="data-admissao" class="block text-sm font-medium text-gray-700">Data de Admissão</label>
-                                        <input type="date" id="data-admissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="date" id="data-admissao" name="dataAdmissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="motivo-admissao" class="block text-sm font-medium text-gray-700">Motivo da Admissão</label>
-                                        <select id="motivo-admissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Primeiro Emprego</option><option>Substituição</option></select>
+                                        <select id="motivo-admissao" name="motivoAdmissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Primeiro Emprego</option><option>Substituição</option></select>
                                     </div>
                                     <div>
                                         <label for="data-demissao" class="block text-sm font-medium text-gray-700">Data de Demissão</label>
-                                        <input type="date" id="data-demissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="date" id="data-demissao" name="dataDemissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
                                         <label for="motivo-demissao" class="block text-sm font-medium text-gray-700">Motivo da Demissão</label>
-                                        <select id="motivo-demissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Pedido de Demissão</option><option>Justa Causa</option></select>
+                                        <select id="motivo-demissao" name="motivoDemissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option value="">Selecione...</option><option>Pedido de Demissão</option><option>Justa Causa</option></select>
                                     </div>
                                     <div>
                                         <label for="carga-horaria" class="block text-sm font-medium text-gray-700">Carga Horária</label>
-                                        <select id="carga-horaria" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>220h</option><option>180h</option></select>
+                                        <select id="carga-horaria" name="cargaHoraria" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>220h</option><option>180h</option></select>
                                     </div>
                                     <div>
                                         <label for="dependentes" class="block text-sm font-medium text-gray-700">Dependentes</label>
-                                        <select id="dependentes" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>0</option><option>1</option><option>2</option></select>
+                                        <select id="dependentes" name="dependentes" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>0</option><option>1</option><option>2</option></select>
                                     </div>
                                     <div>
                                         <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                                        <select id="status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <select id="status" name="status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" disabled>
                                             <option value="Ativo">Ativo</option>
                                             <option value="Inativo">Inativo</option>
                                         </select>
@@ -350,8 +487,15 @@
                             <!-- BOTÕES DE NAVEGAÇÃO E AÇÕES -->
                             <div id="step-navigation" class="flex justify-between items-center pt-4 border-t mt-6">
                                 <div class="flex items-center gap-x-2">
+                                    <!-- Botões para usuário ATIVO -->
                                     <button type="button" id="btn-corrigir-datas" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors hidden">Corrigir Datas</button>
                                     <button type="button" id="btn-inativar-demitir" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors hidden">Inativar/Demitir</button>
+                                    
+                                    <!-- Botões para usuário INATIVO -->
+                                    <button type="button" id="btn-cancelar-inativacao" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors hidden">Cancelar Inativação</button>
+                                    <button type="button" id="btn-ativar" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors hidden">Ativar</button>
+
+
                                     <button type="button" id="btn-abrir-modal-excluir" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors hidden">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -359,7 +503,7 @@
                                 <div class="ml-auto flex items-center space-x-4">
                                     <button type="button" id="btn-prev" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">Anterior</button>
                                     <button type="button" id="btn-next" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Próximo</button>
-                                    <button type="submit" id="btn-save" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 hidden">Salvar Colaborador</button>
+                                    <button type="submit" id="btn-save" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 hidden">Salvar Alterações</button>
                                 </div>
                             </div>
                         </form>
@@ -385,49 +529,75 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button class="btn-confirm bg-blue-600 text-white">Confirmar</button>
+                <button id="btn-salvar-datas" class="btn-confirm bg-blue-600 text-white">Confirmar</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Inativar/Demitir -->
-    <div id="modal-inativar-demitir" class="modal-container hidden">
+    <!-- Modal Inativar/Demitir/Ativar -->
+    <div id="modal-acao-empregado" class="modal-container hidden">
         <div class="modal-backdrop"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="text-xl font-semibold text-gray-800" id="modal-inativar-title">Inativar/Demitir Empregado</h3>
+                <h3 class="text-xl font-semibold text-gray-800" id="modal-acao-title">Ação do Empregado</h3>
                 <button class="modal-close-btn">&times;</button>
             </div>
-            <div class="p-6">
-                 <label for="acao-inativar-demitir" class="block text-sm font-medium text-gray-700 mb-2">Ação</label>
-                 <select id="acao-inativar-demitir" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            <div class="p-6 space-y-4">
+                 <label for="acao-empregado-select" class="block text-sm font-medium text-gray-700">Ação</label>
+                 <select id="acao-empregado-select" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     <option value="">Selecione...</option>
-                    <option value="inativar">Inativar</option>
-                    <option value="demitir">Demitir</option>
                  </select>
+
+                 <div id="container-data-fim" class="hidden">
+                    <label for="modal-data-fim" class="block text-sm font-medium text-gray-700">Data Fim</label>
+                    <input type="date" id="modal-data-fim" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                 </div>
+                 <div id="container-data-demissao" class="hidden">
+                    <label for="modal-data-demissao" class="block text-sm font-medium text-gray-700">Data Demissão</label>
+                    <input type="date" id="modal-data-demissao" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button class="btn-confirm bg-blue-600 text-white">Confirmar</button>
+                <button id="btn-confirmar-acao-empregado" class="btn-confirm bg-blue-600 text-white">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Movimentação (Atalho) -->
+    <div id="modal-movimentacao" class="modal-container hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content max-w-2xl">
+            <div class="modal-header">
+                <h3 class="text-xl font-semibold text-gray-800" id="modal-mov-title">Movimentação</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="p-6" id="modal-mov-body">
+                <!-- Conteúdo do formulário de movimentação será clonado aqui -->
+            </div>
+            <div class="modal-footer">
+                 <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
+                <button class="btn-confirm bg-blue-600 text-white">Confirmar Movimentação</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Confirmação para Excluir -->
-    <div id="modal-confirmar-excluir" class="modal-container hidden">
+
+    <!-- Modal de Confirmação Genérico -->
+    <div id="modal-confirmacao" class="modal-container hidden">
         <div class="modal-backdrop"></div>
         <div class="modal-content w-full max-w-md">
             <div class="modal-header">
-                <h3 class="text-xl font-semibold text-gray-800">Confirmar Exclusão</h3>
+                <h3 class="text-xl font-semibold text-gray-800" id="modal-confirmacao-title">Confirmar Ação</h3>
                 <button class="modal-close-btn">&times;</button>
             </div>
             <div class="p-6 text-center">
-                <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
-                <p>Tem certeza que deseja excluir este colaborador? Esta ação não pode ser desfeita.</p>
+                <i id="modal-confirmacao-icon" class="fas fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
+                <p id="modal-confirmacao-texto">Tem certeza que deseja realizar esta ação?</p>
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button id="btn-confirmar-exclusao" class="btn-confirm bg-red-600 text-white">Excluir</button>
+                <button id="btn-confirmar-acao" class="btn-confirm bg-red-600 text-white">Confirmar</button>
             </div>
         </div>
     </div>
