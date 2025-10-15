@@ -35,14 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
         { value: "transferencia_fornecedor_unidade", text: "Transferência Fornecedor/Unidade" }
     ];
     let empregados = [
-        { id: 1, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=AC', situacao: "Cadastrado", nome: "Ana Carolina", cpf: "111.222.333-44", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1990-05-15", rg: "12.345.678-9", nomeMae: "Maria Almeida", matricula: "1001", dataInicio: "2022-01-01", dataAdmissao: "2022-01-10", funcao: "Desenvolvedora Frontend", salario: 7500.00, tipoContratacao: "CLT", dataExpedicaoRg: "2010-01-05", orgaoEmissor: "SSP/SP", ctps: "1234567", pis: "123.45678.90-1", escolaridade: "Superior Completo", cidadeResidencia: "São Paulo", estadoResidencia: "São Paulo", tipoVinculo: "Consolidação das Leis Trabalhistas", contrato: "Contrato A", area: "Tecnologia", gerencia: "Desenvolvimento", motivoAdmissao: "Substituição", dataDemissao: "", dataFim: "", motivoDemissao: "", cargaHoraria: "220h", dependentes: 0, atividades: [{nome: 'Desenvolvimento de API', data: '2023-01-15'}] },
-        { id: 2, photoUrl: null, situacao: "Pré-cadastro", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataInicio: "2021-11-10", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
-        { id: 3, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=CE', situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataInicio: "2020-02-20", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", dataFim: "2023-10-10", atividades: [] },
-        { id: 4, photoUrl: null, situacao: "Aguardando", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataInicio: "2023-05-15", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
-        { id: 5, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=EM', situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataInicio: "2022-05-25", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
-        { id: 6, photoUrl: null, situacao: "Pré-cadastro", nome: "Fernanda Lima", cpf: "666.777.888-99", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1993-03-12", rg: "67.890.123-4", nomeMae: "Sonia Lima", matricula: "4001", dataInicio: "2023-01-10", dataAdmissao: "2023-01-15", funcao: "Logística", salario: 4500.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 1, photoUrl: '[https://placehold.co/150x150/a9a9a9/ffffff?text=AC](https://placehold.co/150x150/a9a9a9/ffffff?text=AC)', situacao: "Cadastrado", nome: "Ana Carolina", cpf: "111.222.333-44", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1990-05-15", rg: "12.345.678-9", nomeMae: "Maria Almeida", matricula: "1001", dataInicio: "2022-01-01", dataAdmissao: "2022-01-10", funcao: "Desenvolvedora Frontend", salario: 7500.00, tipoContratacao: "CLT", dataExpedicaoRg: "2010-01-05", orgaoEmissor: "SSP/SP", ctps: "1234567", pis: "123.45678.90-1", escolaridade: "Superior Completo", cidadeResidencia: "São Paulo", estadoResidencia: "São Paulo", tipoVinculo: "Consolidação das Leis Trabalhistas", contrato: "Contrato A", area: "Tecnologia", gerencia: "Desenvolvimento", motivoAdmissao: "Substituição", dataDemissao: "", dataFim: "", motivoDemissao: "", cargaHoraria: "220h", dependentes: 0, atividades: [{nome: 'Desenvolvimento de API', data: '2023-01-15'}] },
+        { id: 2, photoUrl: null, situacao: "Cadastrado", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataInicio: "2021-11-10", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 3, photoUrl: '[https://placehold.co/150x150/a9a9a9/ffffff?text=CE](https://placehold.co/150x150/a9a9a9/ffffff?text=CE)', situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataInicio: "2020-02-20", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", dataFim: "2023-10-10", atividades: [] },
+        { id: 4, photoUrl: null, situacao: "Cadastrado", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataInicio: "2023-05-15", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 5, photoUrl: '[https://placehold.co/150x150/a9a9a9/ffffff?text=EM](https://placehold.co/150x150/a9a9a9/ffffff?text=EM)', situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataInicio: "2022-05-25", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 6, photoUrl: null, situacao: "Cadastrado", nome: "Fernanda Lima", cpf: "666.777.888-99", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1993-03-12", rg: "67.890.123-4", nomeMae: "Sonia Lima", matricula: "4001", dataInicio: "2023-01-10", dataAdmissao: "2023-01-15", funcao: "Logística", salario: 4500.00, tipoContratacao: "CLT", atividades: [] },
         { id: 7, photoUrl: null, situacao: "Cadastrado", nome: "Gabriel Souza", cpf: "777.888.999-00", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1998-08-08", rg: "78.901.234-5", nomeMae: "Lúcia Souza", matricula: "4002", dataInicio: "2022-11-01", dataAdmissao: "2022-11-05", funcao: "Operador", salario: 3200.00, tipoContratacao: "CLT", atividades: [] },
-        { id: 8, photoUrl: null, situacao: "Pré-cadastro", nome: "Heloísa Alves", cpf: "888.999.000-11", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "2000-12-25", rg: "89.012.345-6", nomeMae: "Teresa Alves", matricula: "1004", dataInicio: "2024-02-01", dataAdmissao: "2024-02-05", funcao: "Estagiária de RH", salario: 1500.00, tipoContratacao: "Estágio", atividades: [] },
+        { id: 8, photoUrl: null, situacao: "Cadastrado", nome: "Heloísa Alves", cpf: "888.999.000-11", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "2000-12-25", rg: "89.012.345-6", nomeMae: "Teresa Alves", matricula: "1004", dataInicio: "2024-02-01", dataAdmissao: "2024-02-05", funcao: "Estagiária de RH", salario: 1500.00, tipoContratacao: "Estágio", atividades: [] },
     ];
 
     // --- SELETORES DO DOM ---
@@ -140,9 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         [viewLista, viewFormulario, viewMovimentacao, viewAprovacao].forEach(view => view.classList.add('hidden'));
         viewToShow.classList.remove('hidden');
 
-        const activeLinkClasses = ['bg-blue-600', 'font-semibold'];
-        const inactiveLinkClasses = ['hover:bg-gray-700'];
-
         linkCadastroEmpregado.classList.toggle('bg-blue-600', viewToShow === viewLista || viewToShow === viewFormulario);
         linkMovimentacaoEmpregado.classList.toggle('bg-blue-600', viewToShow === viewMovimentacao);
         linkAprovarCadastro.classList.toggle('bg-blue-600', viewToShow === viewAprovacao);
@@ -199,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewContent.innerHTML = `
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="flex-shrink-0">
-                    <img src="${photoPreview.src || 'https://placehold.co/150x150/e2e8f0/64748b?text=Sem+Foto'}" alt="Foto do Colaborador" class="w-[150px] h-[150px] rounded-full object-cover border-4 border-gray-200">
+                    <img src="${photoPreview.src || '[https://placehold.co/150x150/e2e8f0/64748b?text=Sem+Foto](https://placehold.co/150x150/e2e8f0/64748b?text=Sem+Foto)'}" alt="Foto do Colaborador" class="w-[150px] h-[150px] rounded-full object-cover border-4 border-gray-200">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 flex-1">
                     <p><strong>Nome:</strong> ${document.getElementById('nome').value || 'Não preenchido'}</p>
@@ -225,10 +222,19 @@ document.addEventListener('DOMContentLoaded', () => {
         switch (situacao) {
             case 'Pré-cadastro': return 'bg-yellow-100 text-yellow-800';
             case 'Cadastrado': return 'bg-green-100 text-green-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    };
+
+     const getStatusBadge = (status) => {
+        switch (status) {
+            case 'Ativo': return 'bg-green-100 text-green-800';
+            case 'Inativo': return 'bg-red-100 text-red-800';
             case 'Aguardando': return 'bg-blue-100 text-blue-800';
             default: return 'bg-gray-100 text-gray-800';
         }
     };
+
 
     const renderizarTabela = () => {
         mensagemInicial.classList.add('hidden');
@@ -244,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tabelaEmpregados.innerHTML = '';
         semResultados.classList.toggle('hidden', empregadosFiltrados.length > 0);
         empregadosFiltrados.forEach(e => {
-            const statusClass = e.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+            const statusClass = getStatusBadge(e.status);
             const situacaoClass = getSituacaoBadge(e.situacao);
             const row = `
                 <tr class="hover:bg-gray-50">
@@ -356,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(empregado.status === 'Ativo') {
                 btnCorrigirDatas.classList.remove('hidden');
                 btnInativarDemitir.classList.remove('hidden');
-            } else { // Inativo
+            } else { // Inativo or Aguardando
                 btnCorrigirDatas.classList.remove('hidden');
                 btnCancelarInativacao.classList.remove('hidden');
                 btnAtivar.classList.remove('hidden');
@@ -365,12 +371,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             formTitulo.textContent = 'Novo Colaborador';
             empregadoIdInput.value = '';
-            document.getElementById('status').value = 'Ativo';
             modalClienteSelect.value = filtroCliente.value;
             modalFornecedorSelect.value = filtroFornecedor.value;
             modalUnidadeSelect.value = filtroUnidade.value;
         }
-        renderizarAtividades();
         showView(viewFormulario);
     };
 
@@ -378,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const id = parseInt(empregadoIdInput.value);
         const clienteId = parseInt(modalClienteSelect.value);
-        const clienteSelecionado = clientes.find(c => c.id === clienteId);
+        const cliente = clientes.find(c => c.id === clienteId);
 
         const formData = new FormData(formEmpregado);
         const novoEmpregado = Object.fromEntries(formData.entries());
@@ -388,16 +392,22 @@ document.addEventListener('DOMContentLoaded', () => {
         novoEmpregado.clienteId = clienteId;
         novoEmpregado.fornecedorId = parseInt(modalFornecedorSelect.value);
         novoEmpregado.unidadeId = parseInt(modalUnidadeSelect.value);
-        novoEmpregado.status = document.getElementById('status').value;
         novoEmpregado.salario = parseFloat(novoEmpregado.salario) || 0;
 
         if (id) {
             const index = empregados.findIndex(e => e.id === id);
             novoEmpregado.situacao = empregados[index].situacao;
+            novoEmpregado.status = empregados[index].status;
             novoEmpregado.dataFim = empregados[index].dataFim; 
             empregados[index] = { ...empregados[index], ...novoEmpregado, id: id };
         } else {
-            novoEmpregado.situacao = clienteSelecionado?.temPreCadastro ? 'Pré-cadastro' : 'Cadastrado';
+             if (cliente?.temPreCadastro) {
+                novoEmpregado.situacao = 'Pré-cadastro';
+                novoEmpregado.status = 'Aguardando';
+            } else {
+                novoEmpregado.situacao = 'Cadastrado';
+                novoEmpregado.status = 'Ativo';
+            }
             novoEmpregado.id = empregados.length > 0 ? Math.max(...empregados.map(e => e.id)) + 1 : 1;
             empregados.push(novoEmpregado);
         }
@@ -406,27 +416,26 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // --- LÓGICA DA TELA DE MOVIMENTAÇÃO ---
-    const updateMovimentacaoFields = (tipo) => {
-        movimentacaoCamposDinamicos.querySelectorAll(':scope > div').forEach(div => div.classList.add('hidden'));
-        const titleEl = document.getElementById('mov-afastamento-retorno-title');
+    const updateMovimentacaoFields = (container, tipo) => {
+        container.querySelectorAll(':scope > div').forEach(div => div.classList.add('hidden'));
         
+        const getEl = (selector) => container.querySelector(selector);
+
         switch(tipo) {
             case 'transferencia_fornecedor_unidade':
-                document.getElementById('mov-campos-transferencia-fornecedor-unidade').classList.remove('hidden');
+                getEl('#mov-campos-transferencia-fornecedor-unidade').classList.remove('hidden');
                 break;
             case 'transferencia_contrato':
-                 document.getElementById('mov-campos-transferencia-contrato').classList.remove('hidden');
+                 getEl('#mov-campos-transferencia-contrato').classList.remove('hidden');
                 break;
             case 'mudanca_funcao':
-                 document.getElementById('mov-campos-mudanca-funcao').classList.remove('hidden');
+                 getEl('#mov-campos-mudanca-funcao').classList.remove('hidden');
                 break;
             case 'afastamento':
-                titleEl.textContent = 'Afastamento';
-                document.getElementById('mov-campos-afastamento-retorno').classList.remove('hidden');
-                break;
-             case 'retorno_afastamento':
-                titleEl.textContent = 'Retorno de Afastamento';
-                document.getElementById('mov-campos-afastamento-retorno').classList.remove('hidden');
+            case 'retorno_afastamento':
+                const titleEl = getEl('#mov-afastamento-retorno-title');
+                titleEl.textContent = tipo === 'afastamento' ? 'Afastamento' : 'Retorno de Afastamento';
+                getEl('#mov-campos-afastamento-retorno').classList.remove('hidden');
                 break;
         }
     };
@@ -510,7 +519,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropdownButton = e.target.closest('.action-toggle-menu');
         if (dropdownButton) {
             const menu = dropdownButton.nextElementSibling;
-            // Fecha outros menus abertos
             document.querySelectorAll('.actions-menu.show').forEach(m => {
                 if(m !== menu) m.classList.remove('show');
             });
@@ -549,9 +557,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (actionTarget.classList.contains('action-movimentar')) {
              modalMovTitle.textContent = `Movimentação - ${empregado.nome}`;
-             modalMovBody.innerHTML = viewMovimentacao.querySelector('.bg-white').innerHTML;
+             modalMovBody.innerHTML = viewMovimentacao.querySelector('.bg-white').cloneNode(true).innerHTML;
              
-             // Preenche e desabilita filtros no modal
              const modalCliente = modalMovBody.querySelector('#mov-filtro-cliente');
              const modalFornecedor = modalMovBody.querySelector('#mov-filtro-fornecedor');
              const modalUnidade = modalMovBody.querySelector('#mov-filtro-unidade');
@@ -567,27 +574,8 @@ document.addEventListener('DOMContentLoaded', () => {
              [modalCliente, modalFornecedor, modalUnidade, modalEmpregado].forEach(el => el.disabled = true);
 
              modalMovBody.querySelector('#mov-tipo').addEventListener('change', (e) => {
-                 // Lógica para mostrar/esconder campos dinâmicos DENTRO do modal
-                modalMovBody.querySelectorAll('#movimentacao-campos-dinamicos > div').forEach(div => div.classList.add('hidden'));
-                const tipo = e.target.value;
-                 switch(tipo) {
-                    case 'transferencia_fornecedor_unidade':
-                        modalMovBody.querySelector('#mov-campos-transferencia-fornecedor-unidade').classList.remove('hidden');
-                        break;
-                    case 'transferencia_contrato':
-                        modalMovBody.querySelector('#mov-campos-transferencia-contrato').classList.remove('hidden');
-                        break;
-                    case 'mudanca_funcao':
-                        modalMovBody.querySelector('#mov-campos-mudanca-funcao').classList.remove('hidden');
-                        break;
-                    case 'afastamento':
-                    case 'retorno_afastamento':
-                         modalMovBody.querySelector('#mov-campos-afastamento-retorno').classList.remove('hidden');
-                         modalMovBody.querySelector('#mov-afastamento-retorno-title').textContent = tipo === 'afastamento' ? 'Afastamento' : 'Retorno de Afastamento';
-                        break;
-                }
+                 updateMovimentacaoFields(modalMovBody.querySelector('#movimentacao-campos-dinamicos'), e.target.value);
              });
-
              openModal(modalMovimentacao);
         }
     });
@@ -641,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- LISTENERS DA TELA DE MOVIMENTAÇÃO ---
-    movTipoSelect.addEventListener('change', (e) => updateMovimentacaoFields(e.target.value));
+    movTipoSelect.addEventListener('change', (e) => updateMovimentacaoFields(movimentacaoCamposDinamicos, e.target.value));
     [movFiltroCliente, movFiltroFornecedor, movFiltroUnidade].forEach(el => el.addEventListener('change', popularMovimentacaoEmpregados));
     
     // --- LISTENERS DA TELA DE APROVAÇÃO ---
@@ -653,6 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const index = empregados.findIndex(e => e.id === id);
             if (index > -1) {
                 empregados[index].situacao = 'Cadastrado';
+                empregados[index].status = 'Ativo';
                 renderizarTabelaAprovacao();
             }
         }
@@ -741,8 +730,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         closeModal(modalAcaoEmpregado);
         
-        // Se a ação veio da tela de edição, recarrega, senão, recarrega a tabela
-        if(viewFormulario.classList.contains('hidden')) {
+        if(document.getElementById('view-formulario').classList.contains('hidden')) {
             renderizarTabela();
         } else {
             abrirFormulario(id);
@@ -810,7 +798,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- FUNÇÕES DE MÁSCARA ---
+    const applyMask = (input, mask) => {
+        input.addEventListener('input', () => {
+            let value = input.value.replace(/\D/g, "");
+            let maskedValue = "";
+            let k = 0;
+            for (let i = 0; i < mask.length; i++) {
+                if(k >= value.length) break;
+                if (mask[i] === "#") {
+                    maskedValue += value[k++];
+                } else {
+                    maskedValue += mask[i];
+                }
+            }
+            input.value = maskedValue;
+        });
+    };
+
+
     // --- INICIALIZAÇÃO ---
+    applyMask(document.getElementById('cpf'), '###.###.###-##');
+    applyMask(document.getElementById('rg'), '##.###.###-#');
+    applyMask(document.getElementById('pis'), '###.#####.##-#');
+
     [filtroCliente, movFiltroCliente, aprovFiltroCliente].forEach(s => popularSelect(s, clientes, 'Selecione o Cliente'));
     [filtroFornecedor, movFiltroFornecedor, aprovFiltroFornecedor].forEach(s => popularSelect(s, fornecedores, 'Selecione o Fornecedor'));
     [filtroUnidade, movFiltroUnidade, aprovFiltroUnidade].forEach(s => popularSelect(s, unidades, 'Selecione a Unidade'));
