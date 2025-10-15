@@ -557,8 +557,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (actionTarget.classList.contains('action-movimentar')) {
              modalMovTitle.textContent = `Movimentação - ${empregado.nome}`;
-             modalMovBody.innerHTML = viewMovimentacao.querySelector('.bg-white').cloneNode(true).innerHTML;
-             
+             const contentToClone = viewMovimentacao.querySelector('.p-8.bg-white');
+             if (contentToClone) {
+                modalMovBody.innerHTML = contentToClone.cloneNode(true).innerHTML;
+             } else {
+                console.error("Elemento para clonar na movimentação não encontrado.");
+                return;
+             }
              const modalCliente = modalMovBody.querySelector('#mov-filtro-cliente');
              const modalFornecedor = modalMovBody.querySelector('#mov-filtro-fornecedor');
              const modalUnidade = modalMovBody.querySelector('#mov-filtro-unidade');
