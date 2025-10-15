@@ -36,17 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let empregados = [
         { id: 1, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=AC', situacao: "Cadastrado", nome: "Ana Carolina", cpf: "111.222.333-44", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1990-05-15", rg: "12.345.678-9", nomeMae: "Maria Almeida", matricula: "1001", dataInicio: "2022-01-01", dataAdmissao: "2022-01-10", funcao: "Desenvolvedora Frontend", salario: 7500.00, tipoContratacao: "CLT", dataExpedicaoRg: "2010-01-05", orgaoEmissor: "SSP/SP", ctps: "1234567", pis: "123.45678.90-1", escolaridade: "Superior Completo", cidadeResidencia: "São Paulo", estadoResidencia: "São Paulo", tipoVinculo: "Consolidação das Leis Trabalhistas", contrato: "Contrato A", area: "Tecnologia", gerencia: "Desenvolvimento", motivoAdmissao: "Substituição", dataDemissao: "", dataFim: "", motivoDemissao: "", cargaHoraria: "220h", dependentes: 0, atividades: [{nome: 'Desenvolvimento de API', data: '2023-01-15'}] },
-        { id: 2, photoUrl: null, situacao: "Pré-cadastro", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 2, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataInicio: "2021-11-10", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
-        { id: 3, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=CE', situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 1, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataInicio: "2020-02-20", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", dataFim: "2023-10-10", atividades: [] },
-        { id: 4, photoUrl: null, situacao: "Aguardando", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 1, fornecedorId: 3, unidadeId: 3, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataInicio: "2023-05-15", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
-        { id: 5, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=EM', situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 1, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataInicio: "2022-05-25", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 2, photoUrl: null, situacao: "Pré-cadastro", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataInicio: "2021-11-10", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 3, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=CE', situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataInicio: "2020-02-20", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", dataFim: "2023-10-10", atividades: [] },
+        { id: 4, photoUrl: null, situacao: "Aguardando", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataInicio: "2023-05-15", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 5, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=EM', situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataInicio: "2022-05-25", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 6, photoUrl: null, situacao: "Pré-cadastro", nome: "Fernanda Lima", cpf: "666.777.888-99", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1993-03-12", rg: "67.890.123-4", nomeMae: "Sonia Lima", matricula: "4001", dataInicio: "2023-01-10", dataAdmissao: "2023-01-15", funcao: "Logística", salario: 4500.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 7, photoUrl: null, situacao: "Cadastrado", nome: "Gabriel Souza", cpf: "777.888.999-00", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1998-08-08", rg: "78.901.234-5", nomeMae: "Lúcia Souza", matricula: "4002", dataInicio: "2022-11-01", dataAdmissao: "2022-11-05", funcao: "Operador", salario: 3200.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 8, photoUrl: null, situacao: "Pré-cadastro", nome: "Heloísa Alves", cpf: "888.999.000-11", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "2000-12-25", rg: "89.012.345-6", nomeMae: "Teresa Alves", matricula: "1004", dataInicio: "2024-02-01", dataAdmissao: "2024-02-05", funcao: "Estagiária de RH", salario: 1500.00, tipoContratacao: "Estágio", atividades: [] },
     ];
 
     // --- SELETORES DO DOM ---
     const linkCadastroEmpregado = document.getElementById('link-cadastro-empregado');
     const linkMovimentacaoEmpregado = document.getElementById('link-movimentacao-empregado');
+    const linkAprovarCadastro = document.getElementById('link-aprovar-cadastro');
     const viewLista = document.getElementById('view-lista');
     const viewMovimentacao = document.getElementById('view-movimentacao');
+    const viewAprovacao = document.getElementById('view-aprovacao');
     const viewFormulario = document.getElementById('view-formulario');
     const filtroCliente = document.getElementById('filtro-cliente');
     const filtroFornecedor = document.getElementById('filtro-fornecedor');
@@ -95,6 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const movTipoSelect = document.getElementById('mov-tipo');
     const movimentacaoCamposDinamicos = document.getElementById('movimentacao-campos-dinamicos');
     
+    // --- SELETORES APROVAÇÃO ---
+    const aprovFiltroCliente = document.getElementById('aprov-filtro-cliente');
+    const aprovFiltroFornecedor = document.getElementById('aprov-filtro-fornecedor');
+    const aprovFiltroUnidade = document.getElementById('aprov-filtro-unidade');
+    const btnBuscarAprovacao = document.getElementById('btn-buscar-aprovacao');
+    const tabelaAprovacao = document.getElementById('tabela-aprovacao');
+
+
     // --- SELETORES MODAIS ---
     const modalCorrigirDatas = document.getElementById('modal-corrigir-datas');
     const modalDatasTitle = document.getElementById('modal-datas-title');
@@ -124,13 +137,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNÇÕES DE CONTROLE DE VIEW ---
     const showView = (viewToShow) => {
-        [viewLista, viewFormulario, viewMovimentacao].forEach(view => view.classList.add('hidden'));
+        [viewLista, viewFormulario, viewMovimentacao, viewAprovacao].forEach(view => view.classList.add('hidden'));
         viewToShow.classList.remove('hidden');
 
-        linkCadastroEmpregado.classList.toggle('bg-blue-600', viewToShow !== viewMovimentacao);
-        linkCadastroEmpregado.classList.toggle('hover:bg-gray-700', viewToShow === viewMovimentacao);
+        const activeLinkClasses = ['bg-blue-600', 'font-semibold'];
+        const inactiveLinkClasses = ['hover:bg-gray-700'];
+
+        linkCadastroEmpregado.classList.toggle('bg-blue-600', viewToShow === viewLista || viewToShow === viewFormulario);
         linkMovimentacaoEmpregado.classList.toggle('bg-blue-600', viewToShow === viewMovimentacao);
-        linkMovimentacaoEmpregado.classList.toggle('hover:bg-gray-700', viewToShow !== viewMovimentacao);
+        linkAprovarCadastro.classList.toggle('bg-blue-600', viewToShow === viewAprovacao);
     };
 
     const openModal = (modal) => modal.classList.remove('hidden');
@@ -427,10 +442,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const empregadosFiltrados = empregados.filter(e => e.clienteId === clienteId && e.fornecedorId === fornecedorId && e.unidadeId === unidadeId);
         popularSelect(movFiltroEmpregado, empregadosFiltrados, 'Selecione o Empregado');
     };
+
+    // --- LÓGICA TELA APROVAÇÃO ---
+    const renderizarTabelaAprovacao = () => {
+        const clienteId = parseInt(aprovFiltroCliente.value);
+        const fornecedorId = parseInt(aprovFiltroFornecedor.value);
+        const unidadeId = parseInt(aprovFiltroUnidade.value);
+
+        const empregadosParaAprovar = empregados.filter(e => {
+            const situacaoMatch = e.situacao === 'Pré-cadastro';
+            if (clienteId === 0 && fornecedorId === 0 && unidadeId === 0) return situacaoMatch;
+            return situacaoMatch && e.clienteId === clienteId && e.fornecedorId === fornecedorId && e.unidadeId === unidadeId;
+        });
+
+        tabelaAprovacao.innerHTML = '';
+        if (empregadosParaAprovar.length === 0) {
+            tabelaAprovacao.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-500">Nenhum cadastro para aprovar com os filtros selecionados.</td></tr>';
+            return;
+        }
+
+        empregadosParaAprovar.forEach(e => {
+            const row = `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${e.nome}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${e.cpf}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                            ${e.situacao}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <button class="btn-aprovar bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600" data-id="${e.id}">
+                           <i class="fas fa-check mr-2"></i>Aprovar
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tabelaAprovacao.innerHTML += row;
+        });
+    };
+
     
     // --- EVENT LISTENERS GERAIS ---
     linkCadastroEmpregado.addEventListener('click', (e) => { e.preventDefault(); showView(viewLista); });
     linkMovimentacaoEmpregado.addEventListener('click', (e) => { e.preventDefault(); showView(viewMovimentacao); });
+    linkAprovarCadastro.addEventListener('click', (e) => { e.preventDefault(); showView(viewAprovacao); renderizarTabelaAprovacao(); });
     
     btnBuscar.addEventListener('click', () => {
         if (parseInt(filtroCliente.value) === 0 || parseInt(filtroFornecedor.value) === 0 || parseInt(filtroUnidade.value) === 0) {
@@ -451,9 +507,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ações da tabela
     tabelaEmpregados.addEventListener('click', (e) => {
-        const dropdown = e.target.closest('.actions-dropdown');
-        if (dropdown) {
-            dropdown.querySelector('.actions-menu').classList.toggle('show');
+        const dropdownButton = e.target.closest('.action-toggle-menu');
+        if (dropdownButton) {
+            const menu = dropdownButton.nextElementSibling;
+            // Fecha outros menus abertos
+            document.querySelectorAll('.actions-menu.show').forEach(m => {
+                if(m !== menu) m.classList.remove('show');
+            });
+            menu.classList.toggle('show');
         }
 
         const actionTarget = e.target.closest('a[data-id]');
@@ -488,7 +549,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (actionTarget.classList.contains('action-movimentar')) {
              modalMovTitle.textContent = `Movimentação - ${empregado.nome}`;
-             modalMovBody.innerHTML = movimentacaoCamposDinamicos.innerHTML;
+             modalMovBody.innerHTML = viewMovimentacao.querySelector('.bg-white').innerHTML;
+             
+             // Preenche e desabilita filtros no modal
+             const modalCliente = modalMovBody.querySelector('#mov-filtro-cliente');
+             const modalFornecedor = modalMovBody.querySelector('#mov-filtro-fornecedor');
+             const modalUnidade = modalMovBody.querySelector('#mov-filtro-unidade');
+             const modalEmpregado = modalMovBody.querySelector('#mov-filtro-empregado');
+             
+             modalCliente.value = empregado.clienteId;
+             modalFornecedor.value = empregado.fornecedorId;
+             modalUnidade.value = empregado.unidadeId;
+             
+             popularSelect(modalEmpregado, [empregado], '');
+             modalEmpregado.value = empregado.id;
+
+             [modalCliente, modalFornecedor, modalUnidade, modalEmpregado].forEach(el => el.disabled = true);
+
+             modalMovBody.querySelector('#mov-tipo').addEventListener('change', (e) => {
+                 // Lógica para mostrar/esconder campos dinâmicos DENTRO do modal
+                modalMovBody.querySelectorAll('#movimentacao-campos-dinamicos > div').forEach(div => div.classList.add('hidden'));
+                const tipo = e.target.value;
+                 switch(tipo) {
+                    case 'transferencia_fornecedor_unidade':
+                        modalMovBody.querySelector('#mov-campos-transferencia-fornecedor-unidade').classList.remove('hidden');
+                        break;
+                    case 'transferencia_contrato':
+                        modalMovBody.querySelector('#mov-campos-transferencia-contrato').classList.remove('hidden');
+                        break;
+                    case 'mudanca_funcao':
+                        modalMovBody.querySelector('#mov-campos-mudanca-funcao').classList.remove('hidden');
+                        break;
+                    case 'afastamento':
+                    case 'retorno_afastamento':
+                         modalMovBody.querySelector('#mov-campos-afastamento-retorno').classList.remove('hidden');
+                         modalMovBody.querySelector('#mov-afastamento-retorno-title').textContent = tipo === 'afastamento' ? 'Afastamento' : 'Retorno de Afastamento';
+                        break;
+                }
+             });
+
              openModal(modalMovimentacao);
         }
     });
@@ -545,6 +644,20 @@ document.addEventListener('DOMContentLoaded', () => {
     movTipoSelect.addEventListener('change', (e) => updateMovimentacaoFields(e.target.value));
     [movFiltroCliente, movFiltroFornecedor, movFiltroUnidade].forEach(el => el.addEventListener('change', popularMovimentacaoEmpregados));
     
+    // --- LISTENERS DA TELA DE APROVAÇÃO ---
+    btnBuscarAprovacao.addEventListener('click', renderizarTabelaAprovacao);
+    tabelaAprovacao.addEventListener('click', (e) => {
+        const approveBtn = e.target.closest('.btn-aprovar');
+        if (approveBtn) {
+            const id = parseInt(approveBtn.dataset.id);
+            const index = empregados.findIndex(e => e.id === id);
+            if (index > -1) {
+                empregados[index].situacao = 'Cadastrado';
+                renderizarTabelaAprovacao();
+            }
+        }
+    });
+
     // --- LÓGICA E LISTENERS DOS MODAIS ---
     btnCorrigirDatas.addEventListener('click', () => {
         const id = parseInt(empregadoIdInput.value);
@@ -698,9 +811,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- INICIALIZAÇÃO ---
-    [filtroCliente, movFiltroCliente].forEach(s => popularSelect(s, clientes, 'Selecione o Cliente'));
-    [filtroFornecedor, movFiltroFornecedor].forEach(s => popularSelect(s, fornecedores, 'Selecione o Fornecedor'));
-    [filtroUnidade, movFiltroUnidade].forEach(s => popularSelect(s, unidades, 'Selecione a Unidade'));
+    [filtroCliente, movFiltroCliente, aprovFiltroCliente].forEach(s => popularSelect(s, clientes, 'Selecione o Cliente'));
+    [filtroFornecedor, movFiltroFornecedor, aprovFiltroFornecedor].forEach(s => popularSelect(s, fornecedores, 'Selecione o Fornecedor'));
+    [filtroUnidade, movFiltroUnidade, aprovFiltroUnidade].forEach(s => popularSelect(s, unidades, 'Selecione a Unidade'));
     popularSelect(movTipoSelect, movimentacaoTipos, 'Selecione a Movimentação');
     
     popularSelect(document.getElementById('mov-nova-funcao'), funcoes, 'Selecione a Função');
