@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalUnidadeSelect = document.getElementById('modal-unidade');
     const btnNovoColaborador = document.getElementById('btn-novo-colaborador');
     const btnVoltar = document.getElementById('btn-voltar');
-    const btnExcluirFormulario = document.getElementById('btn-excluir-formulario');
+    const btnAbrirModalExcluir = document.getElementById('btn-abrir-modal-excluir');
     const btnIncluirAtividade = document.getElementById('btn-incluir-atividade');
     const listaAtividadesContainer = document.getElementById('lista-atividades');
     
@@ -63,6 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const removePhotoBtn = document.getElementById('remove-photo-btn');
     const btnCorrigirDatas = document.getElementById('btn-corrigir-datas');
     const btnInativarDemitir = document.getElementById('btn-inativar-demitir');
+    
+    // --- SELETORES DE MODAIS ---
+    const modalCorrigirDatas = document.getElementById('modal-corrigir-datas');
+    const modalDatasTitle = document.getElementById('modal-datas-title');
+    const modalDatasBody = document.getElementById('modal-datas-body');
+    const modalInativarDemitir = document.getElementById('modal-inativar-demitir');
+    const modalInativarTitle = document.getElementById('modal-inativar-title');
+    const modalConfirmarExcluir = document.getElementById('modal-confirmar-excluir');
+    const btnConfirmarExclusao = document.getElementById('btn-confirmar-exclusao');
 
 
     let atividadesTemporarias = [];
@@ -79,6 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
         viewLista.classList.add('hidden');
         viewFormulario.classList.remove('hidden');
     };
+
+    // --- FUNÇÕES DE CONTROLE DE MODAIS ---
+    const openModal = (modal) => modal.classList.remove('hidden');
+    const closeModal = (modal) => modal.classList.add('hidden');
+
 
     // --- FUNÇÃO: ATUALIZAR ETAPAS (WIZARD) ---
     const updateStepView = () => {
@@ -107,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNÇÃO: VALIDAR ETAPA ATUAL ---
     const validateStep = (step) => {
-        // Etapa 1 (foto) não tem validação obrigatória
         if (step === 1) return true;
         
         const currentStepElement = document.getElementById(`step-${step}`);
@@ -128,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- FUNÇÃO: RESETAR UPLOAD DE FOTO ---
     const resetPhotoUploader = () => {
-        photoInput.value = ''; // Limpa o arquivo selecionado
+        photoInput.value = '';
         photoPreview.src = '';
         photoPreview.classList.add('hidden');
         photoPlaceholder.classList.remove('hidden');
@@ -154,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     };
-
 
     // --- FUNÇÕES GERAIS ---
     const popularSelect = (selectElement, items, defaultOptionText) => {
@@ -191,10 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const situacaoClass = getSituacaoBadge(e.situacao);
             const row = `
                 <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                        <img class="h-8 w-8 rounded-full object-cover mr-3" src="${e.photoUrl || 'https://placehold.co/40x40/e2e8f0/64748b?text=??'}" alt="Foto de ${e.nome}">
-                        ${e.nome}
-                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${e.nome}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${e.cpf}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${situacaoClass}">${e.situacao}</span></td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">${e.status}</span></td>
@@ -261,8 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         atividadesTemporarias = [];
         resetPhotoUploader();
         
-        // Esconde botões de edição por padrão
-        btnExcluirFormulario.classList.add('hidden');
+        btnAbrirModalExcluir.classList.add('hidden');
         btnCorrigirDatas.classList.add('hidden');
         btnInativarDemitir.classList.add('hidden');
         
@@ -286,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('nome').value = empregado.nome || '';
             document.getElementById('cpf').value = empregado.cpf || '';
             document.getElementById('status').value = empregado.status || 'Ativo';
-            // ... (resto dos campos)
             document.getElementById('pais-contratacao').value = empregado.paisContratacao || 'Brasil';
             document.getElementById('data-nascimento').value = empregado.dataNascimento || '';
             document.getElementById('rg').value = empregado.rg || '';
@@ -317,10 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
             modalFornecedorSelect.value = empregado.fornecedorId;
             modalUnidadeSelect.value = empregado.unidadeId;
             
-            // Mostra botões de edição
-            btnExcluirFormulario.classList.remove('hidden');
-            btnCorrigirDatas.classList.remove('hidden');
-            btnInativarDemitir.classList.remove('hidden');
+            btnAbrirModalExcluir.classList.remove('hidden');
+            if(empregado.status === 'Ativo') {
+                btnCorrigirDatas.classList.remove('hidden');
+                btnInativarDemitir.classList.remove('hidden');
+            }
 
         } else {
             formTitulo.textContent = 'Novo Colaborador';
@@ -344,7 +352,6 @@ document.addEventListener('DOMContentLoaded', () => {
             nome: document.getElementById('nome').value,
             cpf: document.getElementById('cpf').value,
             status: document.getElementById('status').value,
-            // ... (resto dos campos)
             paisContratacao: document.getElementById('pais-contratacao').value,
             dataNascimento: document.getElementById('data-nascimento').value,
             rg: document.getElementById('rg').value,
@@ -391,13 +398,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const excluirEmpregado = () => {
         const id = parseInt(empregadoIdInput.value);
-        if (id && confirm('Tem certeza que deseja excluir este colaborador? Esta ação não pode ser desfeita.')) {
+        if (id) {
             empregados = empregados.filter(e => e.id !== id);
             renderizarTabela();
             showListView();
         }
+        closeModal(modalConfirmarExcluir);
     };
-
+    
     // --- EVENT LISTENERS ---
     btnBuscar.addEventListener('click', () => {
         if (parseInt(filtroCliente.value) === 0 || parseInt(filtroFornecedor.value) === 0 || parseInt(filtroUnidade.value) === 0) {
@@ -409,7 +417,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnNovoColaborador.addEventListener('click', () => abrirFormulario());
     btnVoltar.addEventListener('click', showListView);
-    btnExcluirFormulario.addEventListener('click', excluirEmpregado);
+    btnAbrirModalExcluir.addEventListener('click', () => openModal(modalConfirmarExcluir));
+    btnConfirmarExclusao.addEventListener('click', excluirEmpregado);
     formEmpregado.addEventListener('submit', salvarEmpregado);
     btnIncluirAtividade.addEventListener('click', adicionarAtividade);
     listaAtividadesContainer.addEventListener('click', (e) => {
@@ -452,13 +461,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     removePhotoBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Impede que o click ative o upload
+        e.stopPropagation();
         resetPhotoUploader();
     });
     
-    btnCorrigirDatas.addEventListener('click', () => alert('Função "Corrigir Datas" a ser implementada.'));
-    btnInativarDemitir.addEventListener('click', () => alert('Função "Inativar/Demitir Empregado" a ser implementada.'));
+    btnCorrigirDatas.addEventListener('click', () => {
+        const id = parseInt(empregadoIdInput.value);
+        const empregado = empregados.find(e => e.id === id);
+        if(!empregado) return;
 
+        modalDatasTitle.textContent = `Correção de Datas - ${empregado.nome}`;
+        modalDatasBody.innerHTML = ''; // Limpa conteúdo anterior
+
+        const datas = {
+            "Data de Admissão": empregado.dataAdmissao,
+            "Data de Demissão": empregado.dataDemissao,
+            "Data de Nascimento": empregado.dataNascimento,
+            "Data Expedição (RG)": empregado.dataExpedicaoRg
+        };
+
+        for(const [label, value] of Object.entries(datas)) {
+            if(value) {
+                modalDatasBody.innerHTML += `
+                    <div class="grid grid-cols-2 gap-4 items-center">
+                        <label class="text-sm font-medium text-gray-700">${label}</label>
+                        <input type="date" value="${value}" class="w-full p-2 border border-gray-300 rounded-lg">
+                    </div>
+                `;
+            }
+        }
+        openModal(modalCorrigirDatas);
+    });
+    
+    btnInativarDemitir.addEventListener('click', () => {
+         const id = parseInt(empregadoIdInput.value);
+        const empregado = empregados.find(e => e.id === id);
+        if(!empregado) return;
+        modalInativarTitle.textContent = `Inativar/Demitir - ${empregado.nome}`;
+        openModal(modalInativarDemitir);
+    });
+
+    // Event listeners para fechar modais
+    [modalCorrigirDatas, modalInativarDemitir, modalConfirmarExcluir].forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-backdrop') || e.target.classList.contains('modal-close-btn') || e.target.classList.contains('btn-cancel')) {
+                closeModal(modal);
+            }
+        });
+    });
 
     // --- INICIALIZAÇÃO ---
     popularSelect(filtroCliente, clientes, 'Selecione o Cliente');
@@ -475,3 +525,4 @@ document.addEventListener('DOMContentLoaded', () => {
     popularSelectVinculacao(modalFornecedorSelect, fornecedores);
     popularSelectVinculacao(modalUnidadeSelect, unidades);
 });
+
