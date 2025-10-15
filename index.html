@@ -1,674 +1,836 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Gestão</title>
-    <!-- Frameworks e Ícones Externos -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Ficheiro de Estilo Local -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg-gray-100">
+document.addEventListener('DOMContentLoaded', () => {
 
-    <div class="flex h-screen bg-gray-200">
-        <!-- Menu Lateral -->
-        <aside class="w-64 flex-shrink-0 bg-gray-800 text-white flex flex-col">
-            <div class="h-16 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
-                Bancodoc
-            </div>
-            <nav class="flex-1 px-4 py-4">
-                <ul>
-                    <li>
-                        <button id="menu-lancamento" class="w-full flex justify-between items-center py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none">
-                            <span class="font-medium"><i class="fas fa-rocket mr-3"></i>Lançamento</span>
-                            <i id="arrow-lancamento" class="fas fa-chevron-down transform transition-transform duration-300"></i>
-                        </button>
-                        <ul id="submenu-lancamento" class="mt-2 ml-4 space-y-2">
-                            <li>
-                                <a href="#" id="link-cadastro-empregado" class="block py-2 px-4 rounded-lg bg-blue-600 font-semibold">
-                                    <i class="fas fa-user-tie mr-3"></i>Cadastro de Empregado
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" id="link-movimentacao-empregado" class="block py-2 px-4 rounded-lg hover:bg-gray-700">
-                                    <i class="fas fa-people-arrows mr-3"></i>Movimentação
-                                </a>
-                            </li>
-                             <li>
-                                <a href="#" id="link-aprovar-cadastro" class="block py-2 px-4 rounded-lg hover:bg-gray-700">
-                                    <i class="fas fa-user-check mr-3"></i>Aprovar Cadastro
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-            <div class="p-4 border-t border-gray-700">
-                <p class="text-sm text-center text-gray-400">&copy; 2024 - Todos os direitos reservados.</p>
-            </div>
-        </aside>
+    // --- BANCO DE DADOS (SIMULADO) ---
+    const clientes = [
+        { id: 1, nome: "Tech Solutions S.A.", temPreCadastro: true },
+        { id: 2, nome: "Inova Corp", temPreCadastro: false },
+        { id: 3, nome: "Global Logistics", temPreCadastro: false }
+    ];
+    const fornecedores = [
+        { id: 1, nome: "Alpha Recursos Humanos" },
+        { id: 2, nome: "Beta Terceirização" },
+        { id: 3, nome: "Gama Facilities" }
+    ];
+    const unidades = [
+        { id: 1, nome: "Matriz São Paulo" },
+        { id: 2, nome: "Filial Rio de Janeiro" },
+        { id: 3, nome: "Centro de Distribuição Curitiba" }
+    ];
+    const funcoes = [
+        { id: 1, nome: 'Desenvolvedor Frontend' },
+        { id: 2, nome: 'Desenvolvedor Backend' },
+        { id: 3, nome: 'Analista de Sistemas' },
+        { id: 4, nome: 'Gerente de Projetos' }
+    ];
+     const areas = [
+        { id: 1, nome: 'Tecnologia' },
+        { id: 2, nome: 'Recursos Humanos' },
+        { id: 3, nome: 'Operações' }
+    ];
+    const movimentacaoTipos = [
+        { value: "afastamento", text: "Afastamento - INSS/Licença Maternidade" },
+        { value: "retorno_afastamento", text: "Retorno Afastamento - INSS/Licença Maternidade" },
+        { value: "mudanca_funcao", text: "Mudança de Função" },
+        { value: "transferencia_contrato", text: "Transferência Contrato" },
+        { value: "transferencia_fornecedor_unidade", text: "Transferência Fornecedor/Unidade" }
+    ];
+    let empregados = [
+        { id: 1, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=AC', situacao: "Cadastrado", nome: "Ana Carolina", cpf: "111.222.333-44", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1990-05-15", rg: "12.345.678-9", nomeMae: "Maria Almeida", matricula: "1001", dataInicio: "2022-01-01", dataAdmissao: "2022-01-10", funcao: "Desenvolvedora Frontend", salario: 7500.00, tipoContratacao: "CLT", dataExpedicaoRg: "2010-01-05", orgaoEmissor: "SSP/SP", ctps: "1234567", pis: "123.45678.90-1", escolaridade: "Superior Completo", cidadeResidencia: "São Paulo", estadoResidencia: "São Paulo", tipoVinculo: "Consolidação das Leis Trabalhistas", contrato: "Contrato A", area: "Tecnologia", gerencia: "Desenvolvimento", motivoAdmissao: "Substituição", dataDemissao: "", dataFim: "", motivoDemissao: "", cargaHoraria: "220h", dependentes: 0, atividades: [{nome: 'Desenvolvimento de API', data: '2023-01-15'}] },
+        { id: 2, photoUrl: null, situacao: "Pré-cadastro", nome: "Bruno Costa", cpf: "222.333.444-55", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1988-11-20", rg: "23.456.789-0", nomeMae: "Joana Costa", matricula: "1002", dataInicio: "2021-11-10", dataAdmissao: "2021-11-15", funcao: "Analista de Sistemas", salario: 8200.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 3, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=CE', situacao: "Cadastrado", nome: "Carlos Eduardo", cpf: "333.444.555-66", status: "Inativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1985-02-25", rg: "34.567.890-1", nomeMae: "Sandra Pereira", matricula: "2001", dataInicio: "2020-02-20", dataAdmissao: "2020-03-01", funcao: "Gerente de Projetos", salario: 12500.00, tipoContratacao: "PJ", dataFim: "2023-10-10", atividades: [] },
+        { id: 4, photoUrl: null, situacao: "Aguardando", nome: "Daniela Ferreira", cpf: "444.555.666-77", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "1995-09-10", rg: "45.678.901-2", nomeMae: "Beatriz Ferreira", matricula: "3001", dataInicio: "2023-05-15", dataAdmissao: "2023-05-20", funcao: "Analista de RH", salario: 4800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 5, photoUrl: 'https://placehold.co/150x150/a9a9a9/ffffff?text=EM', situacao: "Cadastrado", nome: "Eduardo Martins", cpf: "555.666.777-88", status: "Ativo", clienteId: 2, fornecedorId: 2, unidadeId: 2, dataNascimento: "1992-07-30", rg: "56.789.012-3", nomeMae: "Clara Martins", matricula: "1003", dataInicio: "2022-05-25", dataAdmissao: "2022-06-01", funcao: "Desenvolvedor Backend", salario: 7800.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 6, photoUrl: null, situacao: "Pré-cadastro", nome: "Fernanda Lima", cpf: "666.777.888-99", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1993-03-12", rg: "67.890.123-4", nomeMae: "Sonia Lima", matricula: "4001", dataInicio: "2023-01-10", dataAdmissao: "2023-01-15", funcao: "Logística", salario: 4500.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 7, photoUrl: null, situacao: "Cadastrado", nome: "Gabriel Souza", cpf: "777.888.999-00", status: "Ativo", clienteId: 3, fornecedorId: 3, unidadeId: 3, dataNascimento: "1998-08-08", rg: "78.901.234-5", nomeMae: "Lúcia Souza", matricula: "4002", dataInicio: "2022-11-01", dataAdmissao: "2022-11-05", funcao: "Operador", salario: 3200.00, tipoContratacao: "CLT", atividades: [] },
+        { id: 8, photoUrl: null, situacao: "Pré-cadastro", nome: "Heloísa Alves", cpf: "888.999.000-11", status: "Ativo", clienteId: 1, fornecedorId: 1, unidadeId: 1, dataNascimento: "2000-12-25", rg: "89.012.345-6", nomeMae: "Teresa Alves", matricula: "1004", dataInicio: "2024-02-01", dataAdmissao: "2024-02-05", funcao: "Estagiária de RH", salario: 1500.00, tipoContratacao: "Estágio", atividades: [] },
+    ];
 
-        <!-- Conteúdo Principal -->
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <!-- TELA DE LISTAGEM (VIEW) -->
-            <div id="view-lista" class="flex-1 flex flex-col">
-                 <header class="h-16 bg-white shadow-md flex items-center justify-between px-6 flex-shrink-0">
-                    <h1 class="text-2xl font-semibold text-gray-800">Cadastro de Empregado</h1>
-                     <div class="flex items-center space-x-4">
-                        <i class="fas fa-bell text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                        <i class="fas fa-user-circle text-2xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                    </div>
-                </header>
-                <div class="flex-1 p-6 overflow-y-auto">
-                    <!-- Área de Filtros -->
-                    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-700">Filtros de Busca</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-                            <div class="md:col-span-1">
-                                <label for="filtro-cliente" class="block text-sm font-medium text-gray-600 mb-1">Cliente</label>
-                                <select id="filtro-cliente" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="0">Selecione o Cliente</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-1">
-                                <label for="filtro-fornecedor" class="block text-sm font-medium text-gray-600 mb-1">Fornecedor</label>
-                                <select id="filtro-fornecedor" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="0">Selecione o Fornecedor</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-1">
-                                <label for="filtro-unidade" class="block text-sm font-medium text-gray-600 mb-1">Unidade</label>
-                                <select id="filtro-unidade" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="0">Selecione a Unidade</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-1">
-                                <button id="btn-buscar" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full flex items-center justify-center">
-                                    <i class="fas fa-search mr-2"></i>Buscar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Mensagem Inicial -->
-                    <div id="mensagem-inicial" class="text-center py-10 px-6 bg-white rounded-lg shadow-md text-gray-500">
-                        <i class="fas fa-filter text-4xl mb-4 text-gray-300"></i>
-                        <p class="font-semibold">Por favor, selecione os filtros acima e clique em "Buscar" para carregar a lista de colaboradores.</p>
-                    </div>
-                    <!-- Lista de Empregados -->
-                    <div id="container-lista" class="bg-white rounded-lg shadow-md hidden">
-                        <div class="flex justify-between items-center p-6 border-b border-gray-200">
-                            <h2 class="text-xl font-semibold text-gray-700">Lista de Colaboradores</h2>
-                            <button id="btn-novo-colaborador" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center">
-                                <i class="fas fa-plus mr-2"></i>Novo Colaborador
-                            </button>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome Completo</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CPF</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Situação</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabela-empregados" class="bg-white divide-y divide-gray-200">
-                                    <!-- Linhas serão inseridas via JS -->
-                                </tbody>
-                            </table>
-                            <div id="sem-resultados" class="text-center py-10 text-gray-500 hidden">
-                                <p>Nenhum colaborador encontrado para os filtros selecionados.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TELA DE MOVIMENTAÇÃO (VIEW) -->
-            <div id="view-movimentacao" class="hidden flex-1 flex flex-col">
-                 <header class="h-16 bg-white shadow-md flex items-center justify-between px-6 flex-shrink-0">
-                    <h1 class="text-2xl font-semibold text-gray-800">Movimentação de Empregado</h1>
-                     <div class="flex items-center space-x-4">
-                        <i class="fas fa-bell text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                        <i class="fas fa-user-circle text-2xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                    </div>
-                </header>
-                <div class="flex-1 p-6 overflow-y-auto">
-                    <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                            <!-- Filtros -->
-                            <div>
-                                <label for="mov-filtro-cliente" class="block text-sm font-medium text-gray-600 mb-1">Cliente</label>
-                                <select id="mov-filtro-cliente" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione o Cliente</option>
-                                </select>
-                            </div>
-                             <div>
-                                <label for="mov-filtro-fornecedor" class="block text-sm font-medium text-gray-600 mb-1">Fornecedor</label>
-                                <select id="mov-filtro-fornecedor" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione o Fornecedor</option>
-                                </select>
-                            </div>
-                             <div>
-                                <label for="mov-filtro-unidade" class="block text-sm font-medium text-gray-600 mb-1">Unidade</label>
-                                <select id="mov-filtro-unidade" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione a Unidade</option>
-                                </select>
-                            </div>
-                             <div>
-                                <label for="mov-filtro-empregado" class="block text-sm font-medium text-gray-600 mb-1">Empregado</label>
-                                <select id="mov-filtro-empregado" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione o Empregado</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label for="mov-tipo" class="block text-sm font-medium text-gray-600 mb-1">Movimentação</label>
-                                <select id="mov-tipo" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="">Selecione...</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Data da Movimentação</label>
-                                <input type="date" id="mov-data" class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
-                            </div>
-                        </div>
-                        
-                        <!-- Campos Dinâmicos para Movimentação -->
-                        <div id="movimentacao-campos-dinamicos" class="mt-6 border-t pt-6">
-                            <!-- Transferência Fornecedor/Unidade -->
-                            <div id="mov-campos-transferencia-fornecedor-unidade" class="hidden space-y-4">
-                                <h4 class="font-semibold">Transferência de Fornecedor/Unidade</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Novo Fornecedor</label>
-                                        <select id="mov-novo-fornecedor" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Nova Unidade</label>
-                                        <select id="mov-nova-unidade" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
-                                    </div>
-                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700">Contrato</label>
-                                        <input type="text" class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700">Área</label>
-                                        <select id="mov-nova-area-1" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Transferência Contrato -->
-                            <div id="mov-campos-transferencia-contrato" class="hidden space-y-4">
-                                <h4 class="font-semibold">Transferência de Contrato</h4>
-                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Contrato</label>
-                                        <input type="text" class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Área</label>
-                                        <select id="mov-nova-area-2" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Mudança de Função -->
-                            <div id="mov-campos-mudanca-funcao" class="hidden space-y-4">
-                                <h4 class="font-semibold">Mudança de Função</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Tipo de Movimentação</label>
-                                        <select class="mt-1 w-full p-2 border border-gray-300 rounded-lg">
-                                            <option>Promoção</option>
-                                            <option>Rebaixamento</option>
-                                        </select>
-                                    </div>
-                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700">Função</label>
-                                        <select id="mov-nova-funcao" class="mt-1 w-full p-2 border border-gray-300 rounded-lg"></select>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label class="block text-sm font-medium text-gray-700">Mudança de Risco Ocupacional</label>
-                                        <div class="flex items-center space-x-4 mt-2">
-                                            <label><input type="radio" name="risco" class="mr-1"> Sim</label>
-                                            <label><input type="radio" name="risco" class="mr-1" checked> Não</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <!-- Afastamento e Retorno (campos comuns) -->
-                            <div id="mov-campos-afastamento-retorno" class="hidden space-y-4">
-                                <h4 class="font-semibold" id="mov-afastamento-retorno-title"></h4>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end gap-4 mt-8 border-t pt-6">
-                            <button class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
-                            <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Inserir</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             <!-- TELA DE APROVAR CADASTRO (VIEW) -->
-            <div id="view-aprovacao" class="hidden flex-1 flex flex-col">
-                 <header class="h-16 bg-white shadow-md flex items-center justify-between px-6 flex-shrink-0">
-                    <h1 class="text-2xl font-semibold text-gray-800">Aprovar Cadastro</h1>
-                     <div class="flex items-center space-x-4">
-                        <i class="fas fa-bell text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                        <i class="fas fa-user-circle text-2xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                    </div>
-                </header>
-                <div class="flex-1 p-6 overflow-y-auto">
-                    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-700">Filtros</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-                             <div class="md:col-span-1">
-                                <label for="aprov-filtro-cliente" class="block text-sm font-medium text-gray-600 mb-1">Cliente</label>
-                                <select id="aprov-filtro-cliente" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione o Cliente</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-1">
-                                <label for="aprov-filtro-fornecedor" class="block text-sm font-medium text-gray-600 mb-1">Fornecedor</label>
-                                <select id="aprov-filtro-fornecedor" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione o Fornecedor</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-1">
-                                <label for="aprov-filtro-unidade" class="block text-sm font-medium text-gray-600 mb-1">Unidade</label>
-                                <select id="aprov-filtro-unidade" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    <option value="0">Selecione a Unidade</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-1">
-                                <button id="btn-buscar-aprovacao" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full flex items-center justify-center">
-                                    <i class="fas fa-search mr-2"></i>Buscar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="container-aprovacao-lista" class="bg-white rounded-lg shadow-md">
-                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome Completo</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CPF</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Situação</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aprovar</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabela-aprovacao" class="bg-white divide-y divide-gray-200"></tbody>
-                            </table>
-                         </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- TELA DE FORMULÁRIO (VIEW) -->
-            <div id="view-formulario" class="hidden flex-1 flex flex-col">
-                <header class="h-16 bg-white shadow-md flex items-center justify-between px-6 flex-shrink-0">
-                    <h1 id="form-titulo" class="text-2xl font-semibold text-gray-800"></h1>
-                    <button id="btn-voltar" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-                        <i class="fas fa-arrow-left mr-2"></i> Voltar para a Lista
-                    </button>
-                </header>
-
-                <div class="flex-1 p-6 overflow-y-auto">
-                    <div class="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">
-                        <!-- NAVEGAÇÃO DAS ETAPAS (WIZARD) -->
-                        <div id="stepper-nav" class="flex border-b mb-8">
-                            <div data-step="1" class="stepper-item active flex-1 text-center font-semibold p-4 border-b-2 border-blue-600 text-blue-600">
-                                <i class="fas fa-camera mr-2 hidden sm:inline"></i>Foto
-                            </div>
-                            <div data-step="2" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
-                                <i class="fas fa-user mr-2 hidden sm:inline"></i>Dados Pessoais
-                            </div>
-                            <div data-step="3" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
-                                <i class="fas fa-file-contract mr-2 hidden sm:inline"></i>Contratuais
-                            </div>
-                            <div data-step="4" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
-                                <i class="fas fa-tasks mr-2 hidden sm:inline"></i>Atividades
-                            </div>
-                             <div data-step="5" class="stepper-item flex-1 text-center font-semibold p-4 text-gray-500">
-                                <i class="fas fa-check-circle mr-2 hidden sm:inline"></i>Revisão
-                            </div>
-                        </div>
-
-                        <form id="form-empregado">
-                            <input type="hidden" id="empregado-id">
-
-                            <!-- ETAPA 1: FOTO -->
-                            <div id="step-1" class="form-step">
-                                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Foto do Colaborador</h4>
-                                 <div class="flex flex-col items-center justify-center py-8">
-                                     <div id="photo-uploader-trigger" class="photo-uploader">
-                                        <img id="photo-preview" src="" alt="Foto do Colaborador" class="hidden">
-                                        <div id="photo-placeholder" class="placeholder">
-                                            <i class="fas fa-camera"></i>
-                                            <p class="text-xs mt-1">Adicionar Foto</p>
-                                        </div>
-                                        <button type="button" id="remove-photo-btn" class="hidden"><i class="fas fa-times"></i></button>
-                                    </div>
-                                    <input type="file" id="photo-input" class="hidden" accept="image/*">
-                                    <p class="text-sm text-gray-500 mt-4">Clique no círculo para adicionar ou alterar a foto.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- ETAPA 2: DADOS PESSOAIS -->
-                            <div id="step-2" class="form-step hidden">
-                                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Dados Pessoais e Documentos</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
-                                    <div class="md:col-span-2">
-                                        <label for="nome" class="block text-sm font-medium text-gray-700">Nome Civil <span class="text-red-500">*</span></label>
-                                        <input type="text" id="nome" name="nome" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div class="md:col-span-2 flex items-end pb-2">
-                                         <input type="checkbox" id="nome-social-check" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                         <label for="nome-social-check" class="ml-2 block text-sm text-gray-900">Utilizar Nome Social</label>
-                                    </div>
-                                    <div>
-                                        <label for="pais-contratacao" class="block text-sm font-medium text-gray-700">País de Contratação</label>
-                                        <select id="pais-contratacao" name="paisContratacao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Brasil</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="cpf" class="block text-sm font-medium text-gray-700">CPF <span class="text-red-500">*</span></label>
-                                        <input type="text" id="cpf" name="cpf" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="000.000.000-00">
-                                    </div>
-                                    <div>
-                                        <label for="rg" class="block text-sm font-medium text-gray-700">RG</label>
-                                        <input type="text" id="rg" name="rg" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="data-expedicao-rg" class="block text-sm font-medium text-gray-700">Data Expedição (RG)</label>
-                                        <input type="date" id="data-expedicao-rg" name="dataExpedicaoRg" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="orgao-emissor" class="block text-sm font-medium text-gray-700">Órgão Emissor</label>
-                                        <input type="text" id="orgao-emissor" name="orgaoEmissor" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="ctps" class="block text-sm font-medium text-gray-700">CTPS</label>
-                                        <input type="text" id="ctps" name="ctps" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="pis" class="block text-sm font-medium text-gray-700">PIS</label>
-                                        <input type="text" id="pis" name="pis" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="data-nascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
-                                        <input type="date" id="data-nascimento" name="dataNascimento" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label for="nome-mae" class="block text-sm font-medium text-gray-700">Nome da Mãe</label>
-                                        <input type="text" id="nome-mae" name="nomeMae" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="escolaridade" class="block text-sm font-medium text-gray-700">Escolaridade</label>
-                                        <select id="escolaridade" name="escolaridade" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Ensino Médio Completo</option><option>Superior Incompleto</option><option>Superior Completo</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="cidade-residencia" class="block text-sm font-medium text-gray-700">Cidade de Residência</label>
-                                        <input type="text" id="cidade-residencia" name="cidadeResidencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="estado-residencia" class="block text-sm font-medium text-gray-700">Estado</label>
-                                        <select id="estado-residencia" name="estadoResidencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>São Paulo</option><option>Rio de Janeiro</option><option>Minas Gerais</option></select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- ETAPA 3: INFORMAÇÕES CONTRATUAIS -->
-                            <div id="step-3" class="form-step hidden">
-                                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Informações Contratuais</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
-                                     <div>
-                                        <label for="matricula" class="block text-sm font-medium text-gray-700">Matrícula</label>
-                                        <input type="text" id="matricula" name="matricula" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="tipo-vinculo" class="block text-sm font-medium text-gray-700">Tipo de Vínculo</label>
-                                        <select id="tipo-vinculo" name="tipoVinculo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Consolidação das Leis Trabalhistas</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="tipo-contratacao" class="block text-sm font-medium text-gray-700">Tipo de Contratação</label>
-                                        <select id="tipo-contratacao" name="tipoContratacao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>CLT</option><option>PJ</option><option>Estágio</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="contrato" class="block text-sm font-medium text-gray-700">Contrato</label>
-                                        <input type="text" id="contrato" name="contrato" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="funcao" class="block text-sm font-medium text-gray-700">Função</label>
-                                        <input type="text" id="funcao" name="funcao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="area" class="block text-sm font-medium text-gray-700">Área</label>
-                                        <select id="area" name="area" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Tecnologia</option><option>Recursos Humanos</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="gerencia" class="block text-sm font-medium text-gray-700">Gerência</label>
-                                        <select id="gerencia" name="gerencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Desenvolvimento</option><option>Operações</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="salario" class="block text-sm font-medium text-gray-700">Salário</label>
-                                        <input type="number" id="salario" name="salario" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ex: 2500.00">
-                                    </div>
-                                    <div>
-                                        <label for="data-inicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
-                                        <input type="date" id="data-inicio" name="dataInicio" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="data-admissao" class="block text-sm font-medium text-gray-700">Data de Admissão</label>
-                                        <input type="date" id="data-admissao" name="dataAdmissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="motivo-admissao" class="block text-sm font-medium text-gray-700">Motivo da Admissão</label>
-                                        <select id="motivo-admissao" name="motivoAdmissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Primeiro Emprego</option><option>Substituição</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="data-demissao" class="block text-sm font-medium text-gray-700">Data de Demissão</label>
-                                        <input type="date" id="data-demissao" name="dataDemissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="motivo-demissao" class="block text-sm font-medium text-gray-700">Motivo da Demissão</label>
-                                        <select id="motivo-demissao" name="motivoDemissao" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option value="">Selecione...</option><option>Pedido de Demissão</option><option>Justa Causa</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="carga-horaria" class="block text-sm font-medium text-gray-700">Carga Horária</label>
-                                        <select id="carga-horaria" name="cargaHoraria" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>220h</option><option>180h</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="dependentes" class="block text-sm font-medium text-gray-700">Dependentes</label>
-                                        <select id="dependentes" name="dependentes" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>0</option><option>1</option><option>2</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                                        <select id="status" name="status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" disabled>
-                                            <option value="Ativo">Ativo</option>
-                                            <option value="Inativo">Inativo</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ETAPA 4: ATIVIDADES -->
-                            <div id="step-4" class="form-step hidden">
-                                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Atividades Executadas</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 items-end bg-gray-50 p-4 rounded-md border">
-                                    <div class="md:col-span-1">
-                                        <label for="atividade-select" class="block text-sm font-medium text-gray-700">Atividades</label>
-                                        <select id="atividade-select" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"><option>Análise de Requisitos</option><option>Desenvolvimento de API</option><option>Testes Unitários</option></select>
-                                    </div>
-                                    <div>
-                                        <label for="atividade-data-inicio" class="block text-sm font-medium text-gray-700">Data Início</label>
-                                        <input type="date" id="atividade-data-inicio" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <button type="button" id="btn-incluir-atividade" class="bg-gray-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-700 transition-colors w-full md:w-auto">Incluir</button>
-                                </div>
-                                <div id="lista-atividades" class="mt-4">
-                                    <!-- Atividades serão listadas aqui -->
-                                </div>
-                            </div>
-                            
-                            <!-- ETAPA 5: VINCULAÇÃO E REVISÃO -->
-                            <div id="step-5" class="form-step hidden">
-                                <div class="bg-gray-50 p-4 rounded-lg border mb-6">
-                                    <h4 class="font-semibold text-gray-600 mb-2">Vinculação</h4>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <div>
-                                           <label for="modal-cliente" class="block text-sm font-medium text-gray-700">Cliente <span class="text-red-500">*</span></label>
-                                           <select id="modal-cliente" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" disabled></select>
-                                        </div>
-                                        <div>
-                                           <label for="modal-fornecedor" class="block text-sm font-medium text-gray-700">Fornecedor <span class="text-red-500">*</span></label>
-                                           <select id="modal-fornecedor" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" disabled></select>
-                                        </div>
-                                        <div>
-                                           <label for="modal-unidade" class="block text-sm font-medium text-gray-700">Unidade <span class="text-red-500">*</span></label>
-                                           <select id="modal-unidade" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" disabled></select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="review-section">
-                                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Revise as Informações</h4>
-                                    <div id="review-content" class="space-y-2 text-sm text-gray-700">
-                                        <!-- Resumo dos dados será inserido aqui via JS -->
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- BOTÕES DE NAVEGAÇÃO E AÇÕES -->
-                            <div id="step-navigation" class="flex justify-between items-center pt-4 border-t mt-6">
-                                <div class="flex items-center gap-x-2">
-                                    <!-- Botões para usuário ATIVO -->
-                                    <button type="button" id="btn-corrigir-datas" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors hidden">Corrigir Datas</button>
-                                    <button type="button" id="btn-inativar-demitir" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors hidden">Inativar/Demitir</button>
-                                    
-                                    <!-- Botões para usuário INATIVO -->
-                                    <button type="button" id="btn-cancelar-inativacao" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors hidden">Cancelar Inativação</button>
-                                    <button type="button" id="btn-ativar" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors hidden">Ativar</button>
-
-
-                                    <button type="button" id="btn-abrir-modal-excluir" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors hidden">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                <div class="ml-auto flex items-center space-x-4">
-                                    <button type="button" id="btn-prev" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300">Anterior</button>
-                                    <button type="button" id="btn-next" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Próximo</button>
-                                    <button type="submit" id="btn-save" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 hidden">Salvar Alterações</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- MODAIS -->
-    <!-- Modal Corrigir Datas -->
-    <div id="modal-corrigir-datas" class="modal-container hidden">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="text-xl font-semibold text-gray-800" id="modal-datas-title">Correção de Datas</h3>
-                <button class="modal-close-btn">&times;</button>
-            </div>
-            <div class="p-6">
-                <div id="modal-datas-body" class="space-y-4">
-                    <!-- Conteúdo dinâmico aqui -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button id="btn-salvar-datas" class="btn-confirm bg-blue-600 text-white">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Inativar/Demitir/Ativar -->
-    <div id="modal-acao-empregado" class="modal-container hidden">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="text-xl font-semibold text-gray-800" id="modal-acao-title">Ação do Empregado</h3>
-                <button class="modal-close-btn">&times;</button>
-            </div>
-            <div class="p-6 space-y-4">
-                 <label for="acao-empregado-select" class="block text-sm font-medium text-gray-700">Ação</label>
-                 <select id="acao-empregado-select" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                    <option value="">Selecione...</option>
-                 </select>
-
-                 <div id="container-data-fim" class="hidden">
-                    <label for="modal-data-fim" class="block text-sm font-medium text-gray-700">Data Fim <span class="text-red-500">*</span></label>
-                    <input type="date" id="modal-data-fim" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
-                 </div>
-                 <div id="container-data-demissao" class="hidden">
-                    <label for="modal-data-demissao" class="block text-sm font-medium text-gray-700">Data Demissão <span class="text-red-500">*</span></label>
-                    <input type="date" id="modal-data-demissao" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
-                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button id="btn-confirmar-acao-empregado" class="btn-confirm bg-blue-600 text-white">Confirmar</button>
-            </div>
-        </div>
-    </div>
+    // --- SELETORES DO DOM ---
+    const linkCadastroEmpregado = document.getElementById('link-cadastro-empregado');
+    const linkMovimentacaoEmpregado = document.getElementById('link-movimentacao-empregado');
+    const linkAprovarCadastro = document.getElementById('link-aprovar-cadastro');
+    const viewLista = document.getElementById('view-lista');
+    const viewMovimentacao = document.getElementById('view-movimentacao');
+    const viewAprovacao = document.getElementById('view-aprovacao');
+    const viewFormulario = document.getElementById('view-formulario');
+    const filtroCliente = document.getElementById('filtro-cliente');
+    const filtroFornecedor = document.getElementById('filtro-fornecedor');
+    const filtroUnidade = document.getElementById('filtro-unidade');
+    const tabelaEmpregados = document.getElementById('tabela-empregados');
+    const semResultados = document.getElementById('sem-resultados');
+    const containerLista = document.getElementById('container-lista');
+    const mensagemInicial = document.getElementById('mensagem-inicial');
+    const btnBuscar = document.getElementById('btn-buscar');
+    const formTitulo = document.getElementById('form-titulo');
+    const formEmpregado = document.getElementById('form-empregado');
+    const empregadoIdInput = document.getElementById('empregado-id');
+    const modalClienteSelect = document.getElementById('modal-cliente');
+    const modalFornecedorSelect = document.getElementById('modal-fornecedor');
+    const modalUnidadeSelect = document.getElementById('modal-unidade');
+    const btnNovoColaborador = document.getElementById('btn-novo-colaborador');
+    const btnVoltar = document.getElementById('btn-voltar');
+    const btnAbrirModalExcluir = document.getElementById('btn-abrir-modal-excluir');
+    const btnIncluirAtividade = document.getElementById('btn-incluir-atividade');
+    const listaAtividadesContainer = document.getElementById('lista-atividades');
     
-    <!-- Modal Movimentação (Atalho) -->
-    <div id="modal-movimentacao" class="modal-container hidden">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content max-w-2xl">
-            <div class="modal-header">
-                <h3 class="text-xl font-semibold text-gray-800" id="modal-mov-title">Movimentação</h3>
-                <button class="modal-close-btn">&times;</button>
-            </div>
-            <div class="p-6" id="modal-mov-body">
-                <!-- Conteúdo do formulário de movimentação será inserido aqui -->
-            </div>
-            <div class="modal-footer">
-                 <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button class="btn-confirm bg-blue-600 text-white">Confirmar Movimentação</button>
-            </div>
-        </div>
-    </div>
+    // --- SELETORES WIZARD ---
+    const stepperNav = document.getElementById('stepper-nav');
+    const formSteps = document.querySelectorAll('.form-step');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnSave = document.getElementById('btn-save');
+    const reviewContent = document.getElementById('review-content');
+    
+    // --- SELETORES FOTO E BOTÕES ---
+    const photoUploaderTrigger = document.getElementById('photo-uploader-trigger');
+    const photoInput = document.getElementById('photo-input');
+    const photoPreview = document.getElementById('photo-preview');
+    const photoPlaceholder = document.getElementById('photo-placeholder');
+    const removePhotoBtn = document.getElementById('remove-photo-btn');
+    const btnCorrigirDatas = document.getElementById('btn-corrigir-datas');
+    const btnInativarDemitir = document.getElementById('btn-inativar-demitir');
+    const btnCancelarInativacao = document.getElementById('btn-cancelar-inativacao');
+    const btnAtivar = document.getElementById('btn-ativar');
+
+    // --- SELETORES MOVIMENTAÇÃO ---
+    const movFiltroCliente = document.getElementById('mov-filtro-cliente');
+    const movFiltroFornecedor = document.getElementById('mov-filtro-fornecedor');
+    const movFiltroUnidade = document.getElementById('mov-filtro-unidade');
+    const movFiltroEmpregado = document.getElementById('mov-filtro-empregado');
+    const movTipoSelect = document.getElementById('mov-tipo');
+    const movimentacaoCamposDinamicos = document.getElementById('movimentacao-campos-dinamicos');
+    
+    // --- SELETORES APROVAÇÃO ---
+    const aprovFiltroCliente = document.getElementById('aprov-filtro-cliente');
+    const aprovFiltroFornecedor = document.getElementById('aprov-filtro-fornecedor');
+    const aprovFiltroUnidade = document.getElementById('aprov-filtro-unidade');
+    const btnBuscarAprovacao = document.getElementById('btn-buscar-aprovacao');
+    const tabelaAprovacao = document.getElementById('tabela-aprovacao');
 
 
-    <!-- Modal de Confirmação Genérico -->
-    <div id="modal-confirmacao" class="modal-container hidden">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content w-full max-w-md">
-            <div class="modal-header">
-                <h3 class="text-xl font-semibold text-gray-800" id="modal-confirmacao-title">Confirmar Ação</h3>
-                <button class="modal-close-btn">&times;</button>
-            </div>
-            <div class="p-6 text-center">
-                <i id="modal-confirmacao-icon" class="fas fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
-                <p id="modal-confirmacao-texto">Tem certeza que deseja realizar esta ação?</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel bg-gray-200 text-gray-800">Cancelar</button>
-                <button id="btn-confirmar-acao" class="btn-confirm bg-red-600 text-white">Confirmar</button>
-            </div>
-        </div>
-    </div>
+    // --- SELETORES MODAIS ---
+    const modalCorrigirDatas = document.getElementById('modal-corrigir-datas');
+    const modalDatasTitle = document.getElementById('modal-datas-title');
+    const modalDatasBody = document.getElementById('modal-datas-body');
+    const btnSalvarDatas = document.getElementById('btn-salvar-datas');
+    const modalAcaoEmpregado = document.getElementById('modal-acao-empregado');
+    const modalAcaoTitle = document.getElementById('modal-acao-title');
+    const acaoEmpregadoSelect = document.getElementById('acao-empregado-select');
+    const containerDataFim = document.getElementById('container-data-fim');
+    const containerDataDemissao = document.getElementById('container-data-demissao');
+    const btnConfirmarAcaoEmpregado = document.getElementById('btn-confirmar-acao-empregado');
+    const modalConfirmacao = document.getElementById('modal-confirmacao');
+    const modalConfirmacaoTitle = document.getElementById('modal-confirmacao-title');
+    const modalConfirmacaoIcon = document.getElementById('modal-confirmacao-icon');
+    const modalConfirmacaoTexto = document.getElementById('modal-confirmacao-texto');
+    const btnConfirmarAcao = document.getElementById('btn-confirmar-acao');
+    const modalMovimentacao = document.getElementById('modal-movimentacao');
+    const modalMovTitle = document.getElementById('modal-mov-title');
+    const modalMovBody = document.getElementById('modal-mov-body');
 
 
-    <!-- Ficheiro de Script Local -->
-    <script src="script.js"></script>
-</body>
-</html>
+    let atividadesTemporarias = [];
+    let currentStep = 1; 
+    const totalSteps = formSteps.length;
+    let currentPhotoUrl = null;
+    let acaoConfirmacaoPendente = null;
+
+    // --- FUNÇÕES DE CONTROLE DE VIEW ---
+    const showView = (viewToShow) => {
+        [viewLista, viewFormulario, viewMovimentacao, viewAprovacao].forEach(view => view.classList.add('hidden'));
+        viewToShow.classList.remove('hidden');
+
+        const activeLinkClasses = ['bg-blue-600', 'font-semibold'];
+        const inactiveLinkClasses = ['hover:bg-gray-700'];
+
+        linkCadastroEmpregado.classList.toggle('bg-blue-600', viewToShow === viewLista || viewToShow === viewFormulario);
+        linkMovimentacaoEmpregado.classList.toggle('bg-blue-600', viewToShow === viewMovimentacao);
+        linkAprovarCadastro.classList.toggle('bg-blue-600', viewToShow === viewAprovacao);
+    };
+
+    const openModal = (modal) => modal.classList.remove('hidden');
+    const closeModal = (modal) => modal.classList.add('hidden');
+
+    const updateStepView = (targetStep = currentStep) => {
+        currentStep = targetStep;
+        if(currentStep === totalSteps) buildReview();
+        formSteps.forEach(step => step.classList.add('hidden'));
+        document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+        stepperNav.querySelectorAll('.stepper-item').forEach((item) => {
+            const step = parseInt(item.dataset.step);
+            item.classList.toggle('active', step === currentStep);
+            item.classList.toggle('border-blue-600', step === currentStep);
+            item.classList.toggle('text-blue-600', step === currentStep);
+            item.classList.toggle('text-gray-500', step !== currentStep);
+            item.classList.toggle('border-transparent', step !== currentStep);
+        });
+        btnPrev.classList.toggle('hidden', currentStep === 1);
+        btnNext.classList.toggle('hidden', currentStep === totalSteps);
+        btnSave.classList.toggle('hidden', currentStep !== totalSteps);
+    };
+
+    const validateStep = (step) => {
+        if (step === 1 || step > totalSteps) return true;
+        const currentStepElement = document.getElementById(`step-${step}`);
+        const inputs = currentStepElement.querySelectorAll('input[required], select[required]');
+        let isValid = true;
+        inputs.forEach(input => {
+            input.classList.remove('border-red-500');
+            if (!input.value || input.value === "0") {
+                isValid = false;
+                input.classList.add('border-red-500');
+            }
+        });
+        if (!isValid) alert('Por favor, preencha todos os campos obrigatórios para avançar.');
+        return isValid;
+    };
+    
+    const resetPhotoUploader = () => {
+        photoInput.value = '';
+        photoPreview.src = '';
+        photoPreview.classList.add('hidden');
+        photoPlaceholder.classList.remove('hidden');
+        removePhotoBtn.classList.add('hidden');
+        currentPhotoUrl = null;
+    };
+
+    const buildReview = () => {
+        const formatDate = (dateString) => dateString ? new Date(dateString + 'T00:00:00').toLocaleDateString('pt-BR') : 'Não preenchido';
+        reviewContent.innerHTML = `
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex-shrink-0">
+                    <img src="${photoPreview.src || 'https://placehold.co/150x150/e2e8f0/64748b?text=Sem+Foto'}" alt="Foto do Colaborador" class="w-[150px] h-[150px] rounded-full object-cover border-4 border-gray-200">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 flex-1">
+                    <p><strong>Nome:</strong> ${document.getElementById('nome').value || 'Não preenchido'}</p>
+                    <p><strong>CPF:</strong> ${document.getElementById('cpf').value || 'Não preenchido'}</p>
+                    <p><strong>Função:</strong> ${document.getElementById('funcao').value || 'Não preenchido'}</p>
+                    <p><strong>Data de Início:</strong> ${formatDate(document.getElementById('data-inicio').value)}</p>
+                    <p><strong>Data de Admissão:</strong> ${formatDate(document.getElementById('data-admissao').value)}</p>
+                    <p><strong>Salário:</strong> R$ ${parseFloat(document.getElementById('salario').value || 0).toFixed(2).replace('.',',')}</p>
+                     <p><strong>Status:</strong> ${document.getElementById('status').value}</p>
+                </div>
+            </div>
+        `;
+    };
+
+    const popularSelect = (selectElement, items, defaultOptionText) => {
+        selectElement.innerHTML = `<option value="0">${defaultOptionText}</option>`;
+        items.forEach(item => {
+            selectElement.innerHTML += `<option value="${item.id || item.value}">${item.nome || item.text}</option>`;
+        });
+    };
+    
+    const getSituacaoBadge = (situacao) => {
+        switch (situacao) {
+            case 'Pré-cadastro': return 'bg-yellow-100 text-yellow-800';
+            case 'Cadastrado': return 'bg-green-100 text-green-800';
+            case 'Aguardando': return 'bg-blue-100 text-blue-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    };
+
+    const renderizarTabela = () => {
+        mensagemInicial.classList.add('hidden');
+        containerLista.classList.remove('hidden');
+        const clienteId = parseInt(filtroCliente.value);
+        const fornecedorId = parseInt(filtroFornecedor.value);
+        const unidadeId = parseInt(filtroUnidade.value);
+        const empregadosFiltrados = empregados.filter(e => 
+            (clienteId === e.clienteId) &&
+            (fornecedorId === e.fornecedorId) &&
+            (unidadeId === e.unidadeId)
+        );
+        tabelaEmpregados.innerHTML = '';
+        semResultados.classList.toggle('hidden', empregadosFiltrados.length > 0);
+        empregadosFiltrados.forEach(e => {
+            const statusClass = e.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+            const situacaoClass = getSituacaoBadge(e.situacao);
+            const row = `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${e.nome}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${e.cpf}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${situacaoClass}">${e.situacao}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">${e.status}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <div class="actions-dropdown">
+                            <button class="action-toggle-menu text-gray-600 hover:text-blue-600">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <div class="actions-menu">
+                                <a class="action-edit" data-id="${e.id}"><i class="fas fa-edit w-6 mr-2"></i> Editar</a>
+                                <a class="action-status" data-id="${e.id}"><i class="fas fa-toggle-on w-6 mr-2"></i> Ativar/Inativar</a>
+                                <a class="action-movimentar" data-id="${e.id}"><i class="fas fa-people-arrows w-6 mr-2"></i> Movimentar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            tabelaEmpregados.innerHTML += row;
+        });
+    };
+
+    const renderizarAtividades = () => {
+        listaAtividadesContainer.innerHTML = '';
+        if (atividadesTemporarias.length === 0) {
+            listaAtividadesContainer.innerHTML = '<p class="text-sm text-gray-500 text-center">Nenhuma atividade incluída.</p>';
+            return;
+        }
+        const table = document.createElement('table');
+        table.className = 'min-w-full divide-y divide-gray-200';
+        table.innerHTML = `
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">Atividade</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">Data Início</th>
+                    <th class="px-4 py-2 text-center text-xs font-medium text-gray-600 uppercase">Ação</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            ${atividadesTemporarias.map((atv, index) => `
+                <tr>
+                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800">${atv.nome}</td>
+                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${new Date(atv.data + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
+                    <td class="px-4 py-2 whitespace-nowrap text-center">
+                        <button type="button" data-index="${index}" class="btn-remover-atividade text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('')}
+            </tbody>
+        `;
+        listaAtividadesContainer.appendChild(table);
+    };
+    const adicionarAtividade = () => {
+        const atividadeSelect = document.getElementById('atividade-select');
+        const dataInput = document.getElementById('atividade-data-inicio');
+        if (!dataInput.value) {
+            alert('Por favor, selecione a data de início da atividade.');
+            return;
+        }
+        atividadesTemporarias.push({
+            nome: atividadeSelect.options[atividadeSelect.selectedIndex].text,
+            data: dataInput.value
+        });
+        renderizarAtividades();
+        dataInput.value = '';
+    };
+    const removerAtividade = (index) => {
+        atividadesTemporarias.splice(index, 1);
+        renderizarAtividades();
+    };
+
+    const abrirFormulario = (id = null) => {
+        formEmpregado.reset();
+        atividadesTemporarias = [];
+        resetPhotoUploader();
+        
+        [btnAbrirModalExcluir, btnCorrigirDatas, btnInativarDemitir, btnCancelarInativacao, btnAtivar].forEach(btn => btn.classList.add('hidden'));
+
+        currentStep = 1;
+        updateStepView();
+
+        if (id) {
+            const empregado = empregados.find(e => e.id === id);
+            if(empregado.atividades) { atividadesTemporarias = [...empregado.atividades]; }
+            formTitulo.textContent = 'Editar Colaborador';
+            empregadoIdInput.value = empregado.id;
+            
+            if(empregado.photoUrl) {
+                photoPreview.src = empregado.photoUrl;
+                currentPhotoUrl = empregado.photoUrl;
+                photoPreview.classList.remove('hidden');
+                photoPlaceholder.classList.add('hidden');
+                removePhotoBtn.classList.remove('hidden');
+            }
+            
+            Object.keys(empregado).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) el.value = empregado[key] || '';
+            });
+
+            modalClienteSelect.value = empregado.clienteId;
+            modalFornecedorSelect.value = empregado.fornecedorId;
+            modalUnidadeSelect.value = empregado.unidadeId;
+            
+            btnAbrirModalExcluir.classList.remove('hidden');
+            if(empregado.status === 'Ativo') {
+                btnCorrigirDatas.classList.remove('hidden');
+                btnInativarDemitir.classList.remove('hidden');
+            } else { // Inativo
+                btnCorrigirDatas.classList.remove('hidden');
+                btnCancelarInativacao.classList.remove('hidden');
+                btnAtivar.classList.remove('hidden');
+            }
+
+        } else {
+            formTitulo.textContent = 'Novo Colaborador';
+            empregadoIdInput.value = '';
+            document.getElementById('status').value = 'Ativo';
+            modalClienteSelect.value = filtroCliente.value;
+            modalFornecedorSelect.value = filtroFornecedor.value;
+            modalUnidadeSelect.value = filtroUnidade.value;
+        }
+        renderizarAtividades();
+        showView(viewFormulario);
+    };
+
+    const salvarEmpregado = (e) => {
+        e.preventDefault();
+        const id = parseInt(empregadoIdInput.value);
+        const clienteId = parseInt(modalClienteSelect.value);
+        const clienteSelecionado = clientes.find(c => c.id === clienteId);
+
+        const formData = new FormData(formEmpregado);
+        const novoEmpregado = Object.fromEntries(formData.entries());
+        
+        novoEmpregado.photoUrl = currentPhotoUrl;
+        novoEmpregado.atividades = [...atividadesTemporarias];
+        novoEmpregado.clienteId = clienteId;
+        novoEmpregado.fornecedorId = parseInt(modalFornecedorSelect.value);
+        novoEmpregado.unidadeId = parseInt(modalUnidadeSelect.value);
+        novoEmpregado.status = document.getElementById('status').value;
+        novoEmpregado.salario = parseFloat(novoEmpregado.salario) || 0;
+
+        if (id) {
+            const index = empregados.findIndex(e => e.id === id);
+            novoEmpregado.situacao = empregados[index].situacao;
+            novoEmpregado.dataFim = empregados[index].dataFim; 
+            empregados[index] = { ...empregados[index], ...novoEmpregado, id: id };
+        } else {
+            novoEmpregado.situacao = clienteSelecionado?.temPreCadastro ? 'Pré-cadastro' : 'Cadastrado';
+            novoEmpregado.id = empregados.length > 0 ? Math.max(...empregados.map(e => e.id)) + 1 : 1;
+            empregados.push(novoEmpregado);
+        }
+        renderizarTabela();
+        showView(viewLista);
+    };
+    
+    // --- LÓGICA DA TELA DE MOVIMENTAÇÃO ---
+    const updateMovimentacaoFields = (tipo) => {
+        movimentacaoCamposDinamicos.querySelectorAll(':scope > div').forEach(div => div.classList.add('hidden'));
+        const titleEl = document.getElementById('mov-afastamento-retorno-title');
+        
+        switch(tipo) {
+            case 'transferencia_fornecedor_unidade':
+                document.getElementById('mov-campos-transferencia-fornecedor-unidade').classList.remove('hidden');
+                break;
+            case 'transferencia_contrato':
+                 document.getElementById('mov-campos-transferencia-contrato').classList.remove('hidden');
+                break;
+            case 'mudanca_funcao':
+                 document.getElementById('mov-campos-mudanca-funcao').classList.remove('hidden');
+                break;
+            case 'afastamento':
+                titleEl.textContent = 'Afastamento';
+                document.getElementById('mov-campos-afastamento-retorno').classList.remove('hidden');
+                break;
+             case 'retorno_afastamento':
+                titleEl.textContent = 'Retorno de Afastamento';
+                document.getElementById('mov-campos-afastamento-retorno').classList.remove('hidden');
+                break;
+        }
+    };
+
+    const popularMovimentacaoEmpregados = () => {
+        const clienteId = parseInt(movFiltroCliente.value);
+        const fornecedorId = parseInt(movFiltroFornecedor.value);
+        const unidadeId = parseInt(movFiltroUnidade.value);
+        if (clienteId === 0 || fornecedorId === 0 || unidadeId === 0) {
+            popularSelect(movFiltroEmpregado, [], 'Selecione o Empregado');
+            return;
+        }
+        const empregadosFiltrados = empregados.filter(e => e.clienteId === clienteId && e.fornecedorId === fornecedorId && e.unidadeId === unidadeId);
+        popularSelect(movFiltroEmpregado, empregadosFiltrados, 'Selecione o Empregado');
+    };
+
+    // --- LÓGICA TELA APROVAÇÃO ---
+    const renderizarTabelaAprovacao = () => {
+        const clienteId = parseInt(aprovFiltroCliente.value);
+        const fornecedorId = parseInt(aprovFiltroFornecedor.value);
+        const unidadeId = parseInt(aprovFiltroUnidade.value);
+
+        const empregadosParaAprovar = empregados.filter(e => {
+            const situacaoMatch = e.situacao === 'Pré-cadastro';
+            if (clienteId === 0 && fornecedorId === 0 && unidadeId === 0) return situacaoMatch;
+            return situacaoMatch && e.clienteId === clienteId && e.fornecedorId === fornecedorId && e.unidadeId === unidadeId;
+        });
+
+        tabelaAprovacao.innerHTML = '';
+        if (empregadosParaAprovar.length === 0) {
+            tabelaAprovacao.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-500">Nenhum cadastro para aprovar com os filtros selecionados.</td></tr>';
+            return;
+        }
+
+        empregadosParaAprovar.forEach(e => {
+            const row = `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${e.nome}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${e.cpf}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                            ${e.situacao}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <button class="btn-aprovar bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600" data-id="${e.id}">
+                           <i class="fas fa-check mr-2"></i>Aprovar
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tabelaAprovacao.innerHTML += row;
+        });
+    };
+
+    
+    // --- EVENT LISTENERS GERAIS ---
+    linkCadastroEmpregado.addEventListener('click', (e) => { e.preventDefault(); showView(viewLista); });
+    linkMovimentacaoEmpregado.addEventListener('click', (e) => { e.preventDefault(); showView(viewMovimentacao); });
+    linkAprovarCadastro.addEventListener('click', (e) => { e.preventDefault(); showView(viewAprovacao); renderizarTabelaAprovacao(); });
+    
+    btnBuscar.addEventListener('click', () => {
+        if (parseInt(filtroCliente.value) === 0 || parseInt(filtroFornecedor.value) === 0 || parseInt(filtroUnidade.value) === 0) {
+            alert('Por favor, selecione um Cliente, um Fornecedor e uma Unidade.');
+            return;
+        }
+        renderizarTabela();
+    });
+
+    btnNovoColaborador.addEventListener('click', () => abrirFormulario());
+    btnVoltar.addEventListener('click', () => showView(viewLista));
+    formEmpregado.addEventListener('submit', salvarEmpregado);
+    btnIncluirAtividade.addEventListener('click', adicionarAtividade);
+    listaAtividadesContainer.addEventListener('click', (e) => {
+        const btnRemover = e.target.closest('.btn-remover-atividade');
+        if (btnRemover) { removerAtividade(parseInt(btnRemover.dataset.index)); }
+    });
+
+    // Ações da tabela
+    tabelaEmpregados.addEventListener('click', (e) => {
+        const dropdownButton = e.target.closest('.action-toggle-menu');
+        if (dropdownButton) {
+            const menu = dropdownButton.nextElementSibling;
+            // Fecha outros menus abertos
+            document.querySelectorAll('.actions-menu.show').forEach(m => {
+                if(m !== menu) m.classList.remove('show');
+            });
+            menu.classList.toggle('show');
+        }
+
+        const actionTarget = e.target.closest('a[data-id]');
+        if (!actionTarget) return;
+
+        const id = parseInt(actionTarget.dataset.id);
+        const empregado = empregados.find(e => e.id === id);
+
+        if (actionTarget.classList.contains('action-edit')) abrirFormulario(id);
+        if (actionTarget.classList.contains('action-status')) {
+            if (empregado.status === 'Ativo') {
+                abrirModalAcao('Inativar/Demitir', [{value: 'inativar', text: 'Inativar'}, {value: 'demitir', text: 'Demitir'}], id);
+            } else {
+                abrirModalConfirmacao({
+                    title: 'Ativar Empregado',
+                    text: `Tem certeza que deseja reativar o empregado ${empregado.nome}?`,
+                    iconClasses: 'fas fa-check-circle text-4xl text-green-500 mb-4',
+                    confirmBtnClass: 'bg-green-600 hover:bg-green-700',
+                    confirmBtnText: 'Ativar',
+                    onConfirm: () => {
+                        const index = empregados.findIndex(e => e.id === id);
+                        if(index > -1) {
+                            empregados[index].status = 'Ativo';
+                            empregados[index].dataFim = '';
+                            empregados[index].dataDemissao = '';
+                        }
+                        closeModal(modalConfirmacao);
+                        renderizarTabela();
+                    }
+                });
+            }
+        }
+        if (actionTarget.classList.contains('action-movimentar')) {
+             modalMovTitle.textContent = `Movimentação - ${empregado.nome}`;
+             modalMovBody.innerHTML = viewMovimentacao.querySelector('.bg-white').innerHTML;
+             
+             // Preenche e desabilita filtros no modal
+             const modalCliente = modalMovBody.querySelector('#mov-filtro-cliente');
+             const modalFornecedor = modalMovBody.querySelector('#mov-filtro-fornecedor');
+             const modalUnidade = modalMovBody.querySelector('#mov-filtro-unidade');
+             const modalEmpregado = modalMovBody.querySelector('#mov-filtro-empregado');
+             
+             modalCliente.value = empregado.clienteId;
+             modalFornecedor.value = empregado.fornecedorId;
+             modalUnidade.value = empregado.unidadeId;
+             
+             popularSelect(modalEmpregado, [empregado], '');
+             modalEmpregado.value = empregado.id;
+
+             [modalCliente, modalFornecedor, modalUnidade, modalEmpregado].forEach(el => el.disabled = true);
+
+             modalMovBody.querySelector('#mov-tipo').addEventListener('change', (e) => {
+                 // Lógica para mostrar/esconder campos dinâmicos DENTRO do modal
+                modalMovBody.querySelectorAll('#movimentacao-campos-dinamicos > div').forEach(div => div.classList.add('hidden'));
+                const tipo = e.target.value;
+                 switch(tipo) {
+                    case 'transferencia_fornecedor_unidade':
+                        modalMovBody.querySelector('#mov-campos-transferencia-fornecedor-unidade').classList.remove('hidden');
+                        break;
+                    case 'transferencia_contrato':
+                        modalMovBody.querySelector('#mov-campos-transferencia-contrato').classList.remove('hidden');
+                        break;
+                    case 'mudanca_funcao':
+                        modalMovBody.querySelector('#mov-campos-mudanca-funcao').classList.remove('hidden');
+                        break;
+                    case 'afastamento':
+                    case 'retorno_afastamento':
+                         modalMovBody.querySelector('#mov-campos-afastamento-retorno').classList.remove('hidden');
+                         modalMovBody.querySelector('#mov-afastamento-retorno-title').textContent = tipo === 'afastamento' ? 'Afastamento' : 'Retorno de Afastamento';
+                        break;
+                }
+             });
+
+             openModal(modalMovimentacao);
+        }
+    });
+
+    window.addEventListener('click', (e) => {
+        if (!e.target.closest('.actions-dropdown')) {
+            document.querySelectorAll('.actions-menu.show').forEach(menu => menu.classList.remove('show'));
+        }
+    });
+
+    // --- EVENT LISTENERS DO WIZARD ---
+    btnNext.addEventListener('click', () => {
+        if (validateStep(currentStep) && currentStep < totalSteps) updateStepView(currentStep + 1);
+    });
+    btnPrev.addEventListener('click', () => {
+        if (currentStep > 1) updateStepView(currentStep - 1);
+    });
+    stepperNav.addEventListener('click', (e) => {
+        const stepperItem = e.target.closest('.stepper-item');
+        if (!stepperItem) return;
+        const targetStep = parseInt(stepperItem.dataset.step);
+        if(!targetStep || targetStep === currentStep) return;
+        if(targetStep > currentStep) {
+            if (Array.from({length: targetStep - currentStep}, (_, i) => currentStep + i).every(validateStep)) {
+                updateStepView(targetStep);
+            }
+        } else {
+            updateStepView(targetStep);
+        }
+    });
+    
+    // --- EVENT LISTENERS DA FOTO ---
+    photoUploaderTrigger.addEventListener('click', () => photoInput.click());
+    photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                photoPreview.src = event.target.result;
+                currentPhotoUrl = event.target.result;
+                photoPreview.classList.remove('hidden');
+                photoPlaceholder.classList.add('hidden');
+                removePhotoBtn.classList.remove('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+    removePhotoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        resetPhotoUploader();
+    });
+
+    // --- LISTENERS DA TELA DE MOVIMENTAÇÃO ---
+    movTipoSelect.addEventListener('change', (e) => updateMovimentacaoFields(e.target.value));
+    [movFiltroCliente, movFiltroFornecedor, movFiltroUnidade].forEach(el => el.addEventListener('change', popularMovimentacaoEmpregados));
+    
+    // --- LISTENERS DA TELA DE APROVAÇÃO ---
+    btnBuscarAprovacao.addEventListener('click', renderizarTabelaAprovacao);
+    tabelaAprovacao.addEventListener('click', (e) => {
+        const approveBtn = e.target.closest('.btn-aprovar');
+        if (approveBtn) {
+            const id = parseInt(approveBtn.dataset.id);
+            const index = empregados.findIndex(e => e.id === id);
+            if (index > -1) {
+                empregados[index].situacao = 'Cadastrado';
+                renderizarTabelaAprovacao();
+            }
+        }
+    });
+
+    // --- LÓGICA E LISTENERS DOS MODAIS ---
+    btnCorrigirDatas.addEventListener('click', () => {
+        const id = parseInt(empregadoIdInput.value);
+        const empregado = empregados.find(e => e.id === id);
+        if(!empregado) return;
+        modalDatasTitle.textContent = `Correção - ${empregado.nome}`;
+        modalDatasBody.innerHTML = ''; 
+        const datas = { "Data de Início": empregado.dataInicio, "Data de Admissão": empregado.dataAdmissao };
+        for(const [label, value] of Object.entries(datas)) {
+             modalDatasBody.innerHTML += `<div class="grid grid-cols-2 gap-4 items-center"><label class="text-sm font-medium text-gray-700">${label}</label><input type="date" data-label="${label}" value="${value || ''}" class="w-full p-2 border border-gray-300 rounded-lg"></div>`;
+        }
+        openModal(modalCorrigirDatas);
+    });
+
+    btnSalvarDatas.addEventListener('click', () => {
+        modalDatasBody.querySelectorAll('input').forEach(input => {
+            const label = input.dataset.label;
+            if (label === "Data de Início") document.getElementById('data-inicio').value = input.value;
+            if (label === "Data de Admissão") document.getElementById('data-admissao').value = input.value;
+        });
+        closeModal(modalCorrigirDatas);
+    });
+    
+    const abrirModalAcao = (title, options, id) => {
+        const empregado = empregados.find(e => e.id === id);
+        if(!empregado) return;
+        modalAcaoTitle.textContent = `${title} - ${empregado.nome}`;
+        acaoEmpregadoSelect.innerHTML = '<option value="">Selecione...</option>' + options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
+        acaoEmpregadoSelect.value = '';
+        containerDataFim.classList.add('hidden');
+        containerDataDemissao.classList.add('hidden');
+        btnConfirmarAcaoEmpregado.dataset.id = id;
+        openModal(modalAcaoEmpregado);
+    };
+
+    btnInativarDemitir.addEventListener('click', () => abrirModalAcao('Inativar/Demitir', [{value: 'inativar', text: 'Inativar'}, {value: 'demitir', text: 'Demitir'}], parseInt(empregadoIdInput.value)));
+    
+    btnAtivar.addEventListener('click', () => {
+        const id = parseInt(empregadoIdInput.value);
+        abrirModalConfirmacao({
+            title: 'Ativar Empregado',
+            text: `Tem certeza que deseja reativar este empregado?`,
+            iconClasses: 'fas fa-check-circle text-4xl text-green-500 mb-4',
+            confirmBtnClass: 'bg-green-600 hover:bg-green-700',
+            confirmBtnText: 'Ativar',
+            onConfirm: () => {
+                const index = empregados.findIndex(e => e.id === id);
+                if(index > -1) {
+                    empregados[index].status = 'Ativo';
+                    empregados[index].dataFim = '';
+                    empregados[index].dataDemissao = '';
+                }
+                closeModal(modalConfirmacao);
+                abrirFormulario(id);
+            }
+        });
+    });
+
+    acaoEmpregadoSelect.addEventListener('change', (e) => {
+        const acao = e.target.value;
+        containerDataFim.classList.toggle('hidden', !['inativar', 'demitir'].includes(acao));
+        containerDataDemissao.classList.toggle('hidden', acao !== 'demitir');
+    });
+
+    btnConfirmarAcaoEmpregado.addEventListener('click', (e) => {
+        const id = parseInt(e.target.dataset.id);
+        const acao = acaoEmpregadoSelect.value;
+        if (!acao) return alert('Selecione uma ação.');
+        const dataFim = document.getElementById('modal-data-fim').value;
+        if(!dataFim) return alert('A Data Fim é obrigatória.');
+        const index = empregados.findIndex(e => e.id === id);
+        if (index === -1) return;
+
+        empregados[index].status = 'Inativo';
+        empregados[index].dataFim = dataFim;
+        
+        if (acao === 'demitir') {
+            const dataDemissao = document.getElementById('modal-data-demissao').value;
+            if(!dataDemissao) return alert('A Data de Demissão é obrigatória.');
+            empregados[index].dataDemissao = dataDemissao;
+        }
+        closeModal(modalAcaoEmpregado);
+        
+        // Se a ação veio da tela de edição, recarrega, senão, recarrega a tabela
+        if(viewFormulario.classList.contains('hidden')) {
+            renderizarTabela();
+        } else {
+            abrirFormulario(id);
+        }
+    });
+
+    const abrirModalConfirmacao = (config) => {
+        modalConfirmacaoTitle.textContent = config.title;
+        modalConfirmacaoTexto.textContent = config.text;
+        modalConfirmacaoIcon.className = config.iconClasses;
+        btnConfirmarAcao.className = `btn-confirm text-white ${config.confirmBtnClass}`;
+        btnConfirmarAcao.textContent = config.confirmBtnText;
+        acaoConfirmacaoPendente = config.onConfirm;
+        openModal(modalConfirmacao);
+    };
+    
+    btnAbrirModalExcluir.addEventListener('click', () => {
+        abrirModalConfirmacao({
+            title: 'Confirmar Exclusão',
+            text: 'Tem certeza que deseja excluir este colaborador? Esta ação não pode ser desfeita.',
+            iconClasses: 'fas fa-exclamation-triangle text-4xl text-red-500 mb-4',
+            confirmBtnClass: 'bg-red-600 hover:bg-red-700',
+            confirmBtnText: 'Excluir',
+            onConfirm: () => {
+                const id = parseInt(empregadoIdInput.value);
+                if (id) {
+                    empregados = empregados.filter(e => e.id !== id);
+                    renderizarTabela();
+                    showView(viewLista);
+                }
+                closeModal(modalConfirmacao);
+            }
+        });
+    });
+
+    btnCancelarInativacao.addEventListener('click', () => {
+         abrirModalConfirmacao({
+            title: 'Cancelar Inativação',
+            text: 'Tem certeza que deseja reativar este colaborador? A Data Fim será removida.',
+            iconClasses: 'fas fa-question-circle text-4xl text-blue-500 mb-4',
+            confirmBtnClass: 'bg-blue-600 hover:bg-blue-700',
+            confirmBtnText: 'Reativar',
+            onConfirm: () => {
+                const id = parseInt(empregadoIdInput.value);
+                const index = empregados.findIndex(e => e.id === id);
+                if(index > -1) {
+                    empregados[index].status = 'Ativo';
+                    empregados[index].dataFim = '';
+                }
+                closeModal(modalConfirmacao);
+                abrirFormulario(id);
+            }
+        });
+    });
+    
+    btnConfirmarAcao.addEventListener('click', () => {
+        if(acaoConfirmacaoPendente) acaoConfirmacaoPendente();
+    });
+
+    document.querySelectorAll('.modal-container').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-backdrop') || e.target.classList.contains('modal-close-btn') || e.target.classList.contains('btn-cancel')) {
+                closeModal(modal);
+            }
+        });
+    });
+
+    // --- INICIALIZAÇÃO ---
+    [filtroCliente, movFiltroCliente, aprovFiltroCliente].forEach(s => popularSelect(s, clientes, 'Selecione o Cliente'));
+    [filtroFornecedor, movFiltroFornecedor, aprovFiltroFornecedor].forEach(s => popularSelect(s, fornecedores, 'Selecione o Fornecedor'));
+    [filtroUnidade, movFiltroUnidade, aprovFiltroUnidade].forEach(s => popularSelect(s, unidades, 'Selecione a Unidade'));
+    popularSelect(movTipoSelect, movimentacaoTipos, 'Selecione a Movimentação');
+    
+    popularSelect(document.getElementById('mov-nova-funcao'), funcoes, 'Selecione a Função');
+    popularSelect(document.getElementById('mov-nova-area-1'), areas, 'Selecione a Área');
+    popularSelect(document.getElementById('mov-nova-area-2'), areas, 'Selecione a Área');
+    popularSelect(document.getElementById('mov-novo-fornecedor'), fornecedores, 'Selecione o Fornecedor');
+    popularSelect(document.getElementById('mov-nova-unidade'), unidades, 'Selecione a Unidade');
+    
+    
+    const popularSelectVinculacao = (select, data) => {
+        select.innerHTML = '';
+        data.forEach(item => {
+           select.innerHTML += `<option value="${item.id}">${item.nome}</option>`;
+        });
+    };
+    popularSelectVinculacao(modalClienteSelect, clientes);
+    popularSelectVinculacao(modalFornecedorSelect, fornecedores);
+    popularSelectVinculacao(modalUnidadeSelect, unidades);
+});
 
